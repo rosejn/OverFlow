@@ -1,0 +1,65 @@
+
+package overFlow.main;
+
+import java.awt.geom.*;
+import java.util.Vector;
+import overFlow.Node.Node;
+import overFlow.Connection.Connection;
+import overFlow.Grid.Grid;
+import overFlow.InputPort.InputPort;
+
+import com.sun.scenario.scenegraph.SGGroup;
+import com.sun.scenario.scenegraph.SGText;
+import com.sun.scenario.scenegraph.fx.FXShape;
+
+
+final public class OverFlowMain {
+	
+	public Node currentInputObject;
+	public Connection currentConnection;
+	public InputPort currentInputIO;
+
+	public SGText editModeLabel = new SGText();
+	public boolean overMenu = false;
+	public boolean connecting = false;
+	public boolean connectionOver = false;
+	public boolean objectOver = false;
+	public boolean inputConnectionOver = false;
+	public boolean snapMode = false;
+	public boolean overSelection = false;    //for moving group of selected objects
+
+	public boolean frameDragged;
+	public FXShape currentInputShape = new FXShape();
+	public FXShape currentOutputShape = new FXShape();
+
+	final public static SGGroup rootGroup = new SGGroup();  //application root scenegraph group
+
+	public Point2D.Double inputPoint = new Point2D.Double();
+	public Point2D.Double outputPoint = new Point2D.Double();
+
+	public boolean editMode = true;  //global edit mode
+
+
+	public Grid grid = new Grid(20);
+
+
+	public int frameMouseX;  //global mouse location
+	public int frameMouseY;  //global mouse location
+
+	public static Vector currentSelectedConnections = new Vector();
+	public static Vector currentSelectedObjects = new Vector();
+	public static Vector connections = new Vector();
+	public static Vector objects = new Vector();
+
+	public System sys;
+	
+	
+	public static void main(String args[]) {
+		
+		  new GUI().setVisible(true);
+		
+		}
+		}
+	
+
+}

@@ -1,0 +1,36 @@
+package overFlow.main;
+
+
+import java.awt.Dimension;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import com.sun.scenario.scenegraph.JSGPanel;
+import com.sun.scenario.scenegraph.SGComponent;
+import com.sun.scenario.scenegraph.SGTransform;
+
+public class NodeTextEntry extends JSGPanel{
+
+	NodeTextEntry() {
+
+	            JPanel panel = new JPanel();
+	            JTextArea ta = new JTextArea();
+	            ta.setText("Hello Scenario!");
+	            JScrollPane sp = new JScrollPane(ta);
+	            panel.add(ta);
+	            sp.setPreferredSize(new Dimension(200, 200));
+	            panel.add(new JButton("test"));
+	            
+
+	            SGComponent comp = new SGComponent();
+	            comp.setComponent(panel);
+	            comp.setID("ScrollPane Wrapper");
+	            setScene(SGTransform.createTranslation(100, 0, 
+	            SGTransform.createRotation(Math.PI/8,comp)));
+	        }
+		
+	}
+

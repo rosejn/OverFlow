@@ -1,0 +1,123 @@
+package overFlow.main;
+
+import java.util.Iterator;
+
+public final class SelectionManager {
+
+	
+	 public void bringSelectedToFront() {
+		    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+		        Node obj = (Node)i.next();
+		        obj.bringToFront();
+       }
+	}
+	  void unselectAll() {
+		    for(Iterator i = OverFlowMain.currentSelectedConnections.iterator(); i.hasNext();) {
+		      Connection con = (Connection)i.next();
+		      con.setSelected(false);
+		    }
+		    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+		      Node obj = (Node)i.next();
+		      obj.setSelected(false);
+		      selectionGroup.remove(obj.returnGroup());
+		    }
+		    OverFlowMain.currentSelectedConnections.removeAllElements();
+		    OverFlowMain.currentSelectedObjects.removeAllElements();
+		  }  
+
+		  void updateAllSelectedConnections() {
+		    for(int i = 0; i < OverFlowMain.currentSelectedObjects.size() - 1; i++) {
+		      Node obj = (Node) OverFlowMain.currentSelectedObjects.get(i);
+		      obj.updateConnectionLines();
+		    }
+		  }  
+
+		  void deleteSelected() { 
+		    for(Iterator i = OverFlowMain.currentSelectedConnections.iterator(); i.hasNext();) {
+		      Connection con = (Connection)i.next();
+		      con.kill();
+		    }
+		    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+		      Node obj = (Node)i.next();
+		      obj.killConnections();
+		      OverFlowMain.objects.remove(obj);
+		      OverFlowMain.rootGroup.remove(obj.returnGroup());
+		    }
+		    OverFlowMain.currentSelectedObjects.removeAllElements();
+		    OverFlowMain.currentSelectedConnections.removeAllElements();
+		  } 
+	  
+	 public void alignVertical() {
+	    Float averageVal = 0f;
+	    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+	      Node n = (Node)i.next();
+	 //     averageVal += n.getGlobalX() - n.groupT.getTranslateX();
+	    }
+	    averageVal /= OverFlowMain.currentSelectedObjects.size();
+	    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+	      Node n = (Node)i.next();
+	      n.groupT.setTranslateX(averageVal);
+	      n.updateConnectionLines();    
+	    }
+	  }
+
+	  void alignHorizontal() {
+
+	    float averageVal = 0f;
+	    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+	      Node obj = (Node)i.next();
+	      averageVal += obj.getGlobalY() - obj.groupT.getTranslateY();
+	    }
+	    averageVal /= OverFlowMain.currentSelectedObjects.size();
+	    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+	      Node obj = (Node)i.next();
+	      obj.groupT.setTranslateY(averageVal);
+	      obj.updateConnectionLines();  
+	    }
+	  }
+	  
+	  public void arrowKeyMover (int modifier, int keyId){
+	      for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {    
+	          Node n = (Node)i.next();
+	          if(keyId == 37) {
+	            if(modifier == 1) {
+	              n.groupT.translateBy(-10,0); 
+	              n.setGlobal(-10, 0);
+	              n.updateConnectionLines();             
+	            }
+	            n.groupT.translateBy(-1,0);
+	            n.updateConnectionLines();
+	          }
+	          if(keyId == 39) {
+	            if(modifier == 1) {
+	              n.groupT.translateBy(10,0); 
+	              n.setGlobal(10, 0);       
+	              n.updateConnectionLines();      
+	            }
+	            n.groupT.translateBy(1,0);
+	            n.updateConnectionLines();
+	            n.setGlobal(1, 0);
+	          }
+	          if(keyId == 38) {
+	            if(modifier == 1) {
+	              n.groupT.translateBy(0,-10);
+	              n.setGlobal(0, -10);
+	              n.updateConnectionLines();              
+	            }
+	            n.groupT.translateBy(0,-1);
+	            n.setGlobal(0, -1);
+	            n.updateConnectionLines();
+	          }
+	          if(keyId == 40) {
+	            if(modifier == 1) {
+	              n.groupT.translateBy(0,10);
+	              n.setGlobal(0, 10);
+	              n.updateConnectionLines();              
+	            }
+	            n.groupT.translateBy(0,1);
+	            n.setGlobal(0, 1);
+	            n.updateConnectionLines();
+	          }
+	      }
+	  }
+}

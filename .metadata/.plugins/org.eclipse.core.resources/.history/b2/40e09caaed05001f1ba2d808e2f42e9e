@@ -1,0 +1,96 @@
+package overFlow.main;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import com.sun.scenario.scenegraph.fx.FXShape;
+
+
+//An inner class for all GUI elements.
+
+public class GUI extends javax.swing.JFrame {
+
+int fHeight;
+int fWidth;
+
+
+public GUI() {
+ initComponents();
+}
+
+void initComponents() {
+	
+	
+	Toggle tog = new Toggle(300,300);
+	OverFlowMain.rootGroup.add(tog.returnGroup());
+ MainWindowGraphics mainWindowGraphics = new MainWindowGraphics();
+
+ OverFlowMain.gpanel.setBackground(Color.WHITE);
+ OverFlowMain.gpanel.setScene(OverFlowMain.rootGroup);
+ OverFlowMain.gpanel.setPreferredSize(new Dimension(800, 600));    //mouse events for whole scene
+
+ OverFlowMain.editModeLabel.setFont(new Font("Helvetica", Font.PLAIN, 14));
+ OverFlowMain.editModeLabel.setLocation(new Point(50, 20));
+ OverFlowMain.editModeLabel.setAntialiasingHint(RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+ OverFlowMain.editModeLabel.setText("Edit Mode");
+ OverFlowMain.editModeLabel.setFillPaint(Color.BLACK);
+ OverFlowMain.rootGroup.add(OverFlowMain.editModeLabel);
+
+ getContentPane().add( OverFlowMain.gpanel);
+ pack();
+}
+
+////get the location of the current FXShape
+Point2D.Double shapeLocation(FXShape s) {
+ Rectangle2D rect = s.getBounds();
+ Point2D.Double p = new Point2D.Double(rect.getX() + (rect.getWidth() - rect.getX())/2, rect.getY());
+ return p;
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

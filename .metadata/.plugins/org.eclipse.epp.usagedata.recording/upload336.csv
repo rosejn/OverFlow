@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115050577
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.undo",1264115052634
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115097357
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115340814
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115347358
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115357035
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115377983
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115425903
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1264115427565
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1264115434993
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.paste",1264115437682
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.undo",1264115441513
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115442294
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115510175
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115515562
+error,log,,,"Internal Error",1264115522305
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115522755
+activated,view,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.PackageExplorer",1264115524888
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115533886
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115537767
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1264115538322
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1264115538634
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.paste",1264115542148
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115546344
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1264115548753

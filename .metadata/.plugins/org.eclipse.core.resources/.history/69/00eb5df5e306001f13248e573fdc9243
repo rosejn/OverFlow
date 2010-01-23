@@ -1,0 +1,438 @@
+package overFlow.main;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.util.Iterator;
+import overFlow.main.Node;
+
+import com.sun.scenario.effect.DropShadow;
+import com.sun.scenario.scenegraph.SGGroup;
+import com.sun.scenario.scenegraph.SGShape;
+import com.sun.scenario.scenegraph.SGText;
+import com.sun.scenario.scenegraph.SGNode;
+import com.sun.scenario.scenegraph.SGTransform;
+import com.sun.scenario.scenegraph.event.SGKeyListener;
+import com.sun.scenario.scenegraph.event.SGMouseAdapter;
+import com.sun.scenario.scenegraph.fx.FXShape;
+
+/*
+this class is used to control:
+ - selection tool
+ - menubar (not implemented yet)
+ - manage main frame key and mouse events for object creation and selection tool
+ */
+
+public class MainFrameInput {          
+  public SGGroup selectionGroup = new SGGroup();
+  public SGTransform.Translate sGroup = SGTransform.createTranslation(0, 0, selectionGroup);
+  public SGGroup selectedGroup = new SGGroup();
+  public SGGroup group = new SGGroup();
+  public SGGroup menu = new SGGroup();
+
+  public FXShape selectionBox = new FXShape();
+  public FXShape menuBackground = new FXShape();
+  public FXShape editModeButton = new FXShape();
+  public FXShape snapModeButton = new FXShape();
+
+  public SGShape window = new SGShape();
+
+  public boolean selecting = false;
+  public static boolean creatingObject;
+  public char[] newObjectName = new char[1];
+  public static ObjectCreator objCreator;
+
+  public static float windowX;
+  public static float windowY;
+  public static float pWindowX;
+  public static float pWindowY;
+  public static float yVel;
+  public static float xVel;
+
+  private char letter;
+
+  private long oldTime;
+  
+  public SelectionTools selectionTool = new SelectionTools();
+  public SelectionManager selectionManager = new SelectionManager();
+  
+  MainFrameInput() {    
+
+    OverFlowMain.grid.setVisible(true);
+
+    group.add(selectedGroup);
+    group.add(window);
+    OverFlowMain.rootGroup.add(OverFlowMain.grid.returnLineGroup());
+    OverFlowMain.rootGroup.add(group);
+    
+    
+    objCreator = new ObjectCreator(OverFlowMain.frameMouseX, OverFlowMain.frameMouseY);
+
+    window.setShape(new Rectangle2D.Float(0,0,1000,1000));
+    window.setMode(SGShape.Mode.STROKE); 
+    window.setDrawStroke(new BasicStroke(0.0f));
+    window.setDrawPaint(new Color(150,150,150, 0));
+    window.addMouseListener(new SGMouseAdapter() {		//Contains all of the main window mouse interaction, object creation calls, etc
+      Point2D pos;
+      Point2D pPos;
+      Point2D p;
+      Point2D new_p;
+      public void mouseMoved(MouseEvent e, SGNode n) {
+        pos = e.getPoint();
+        windowX = (float) pos.getX();
+        windowY = (float) pos.getY();
+      }
+      
+      public void mousePressed(MouseEvent e, SGNode n){
+    	  selectionManager.pressed(e);
+        new_p = e.getPoint();
+        if(OverFlowMain.editMode){
+          pPos = e.getPoint();    //set global variables
+          windowX = (float) pPos.getX();
+          windowY = (float) pPos.getY();
+
+          if(creatingObject && !objCreator.over){  //if creating a new object and click is outside of it, finish creating it
+            objCreator.setVisible(false);
+            creatingObject = false;
+          }
+
+          if(!OverFlowMain.objectOver) {
+            selectionTool.setSelecting(true);	 //only show if not over an object
+            if(!OverFlowMain.connectionOver) {
+              //   unselectAll();  //if click over nothing, unselect everything 
+            }
+          }
+
+          if(OverFlowMain.sys.nanoTime() - oldTime < 2.0000000E8) {
+            if(!OverFlowMain.objectOver && !OverFlowMain.overMenu){
+              creatingObject = true;
+              objCreator.setLocation(windowX, windowY);
+              objCreator.setVisible(true);
+            }
+          }
+          oldTime = OverFlowMain.sys.nanoTime();
+
+        }
+        p = e.getPoint();
+      }
+
+      public void mouseExited(MouseEvent e, SGNode n) {
+      }
+      public void mouseReleased(MouseEvent e, SGNode n) {
+    	  selectionManager.released(e);
+    	OverFlowMain.frameDragged = false;
+        selectionBox.setVisible(false);  
+        selectionTool.setSelecting(false);
+        for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {  
+          Node obj = (Node)i.next();
+          obj.movingSelected = false;
+        }
+      }
+      public void mouseDragged(MouseEvent e, SGNode n) {
+    	  selectionManager.dragged(e);
+        if(OverFlowMain.currentSelectedObjects.size() > 1) {
+          sGroup.translateBy(xVel, yVel);
+
+        }
+        OverFlowMain.frameDragged = true;
+        pos = e.getPoint();
+        new_p = pos;
+
+        /////Global window variables
+        windowX = (float) pos.getX();
+        windowY = (float) pos.getY();
+
+        if(windowX - pWindowX < 100){
+          xVel = windowX - pWindowX;
+        }
+        else {
+          xVel = 0;
+        }
+        if(windowY - pWindowY < 100){
+          yVel = windowY - pWindowY;
+        }
+        else {
+          yVel = 0;
+        }
+        /////end globals
+
+//        for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {      //sets a boolean telling the nodes whether they are being moved by a group translatino or a local, individual translation
+//          Node tn = (Node)i.next();
+//          if(tn.selected && !selecting){
+//            tn.movingSelected = true;
+//            tn.groupT.translateBy(xVel, yVel); 
+//            tn.setGlobal(xVel, yVel);
+//            tn.updateConnectionLines();
+//          }
+//          else {
+//            tn.movingSelected = false;
+//          }
+//        }
+//
+//        if(OverFlowMain.editMode && !OverFlowMain.connecting){
+//          SelectionTools.draggUpdate(pPos, pos);
+//          
+//          Rectangle2D.Double rect = getSelectionRect(pPos, pos); 
+//          selectionBox.setShape(new Rectangle2D.Double(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
+//
+//          for(Iterator i = OverFlowMain.objects.iterator();  i.hasNext();) {
+//            Node obj = (Node)i.next();
+//            if(selecting){    //this creates a selection box only if mouse is not over an object
+//              if(obj.getGlobalX() > rect.getX() && obj.getGlobalY() > rect.getY() && obj.getGlobalX() < rect.getWidth() + rect.getX() && obj.getGlobalY() < rect.getY() + rect.getHeight() || obj.getGlobalX() + obj.w > rect.getX() && obj.getGlobalY() + obj.h > rect.getY() && obj.getGlobalX() + obj.w < rect.getWidth() + rect.getX() && obj.getGlobalY() + obj.h < rect.getY() + rect.getHeight()){  //check if an object is with in the selection area
+//                if(!OverFlowMain.currentSelectedObjects.contains(obj)){
+//                  obj.setSelected(true);
+//                  obj.movingSelected = true;
+//                }
+//              }
+//              else {
+//                if(OverFlowMain.currentSelectedObjects.contains(obj)){
+//                  obj.setSelected(false);
+//                  obj.movingSelected = false;
+//                }
+//              }
+//            }
+//          }
+          pWindowX = windowX;
+          pWindowY = windowY;
+        
+        p = pos;
+      }
+
+      }
+    );
+
+    window.addKeyListener(new SGKeyListener() {
+      public void keyPressed(java.awt.event.KeyEvent e, SGNode node) {      
+    	 SelectionManager.keyTyped(e);
+        ////////////  Move selected objects with arrows, hold shift to move by 10 pixels /////////////////
+        arrowKeyMover(e.getModifiers(), e.getKeyCode());
+        ///////////////////////end of translation arrows////////////////////
+
+
+        if(e.getKeyCode() == 8 && letter == 'v') {      // vertical alignment tools
+          alignVertical();
+        }
+
+        if(e.getModifiers() == 8 && letter == 'h') {      // horizontal alignment tools
+          alignHorizontal();
+        }
+
+        if(e.getModifiers() == 8 && letter == 'b') {      // bring selected to front
+            bringSelectedToFront();
+          }
+
+        if(e.getKeyCode() == 127) {    //delete selected objects
+          deleteSelected();  
+        }
+
+        if(e.getModifiers() == 8 && e.getKeyChar() == 'e') {    //set edit mode toggle with alt - e to true
+          if(OverFlowMain.getEditMode()) {
+              OverFlowMain.setEditMode(false);
+        	  OverFlowMain.grid.setVisible(false);
+          }
+          else {												//set edit mode toggle with alt - e to false
+        	  OverFlowMain.grid.setVisible(true);
+              OverFlowMain.setEditMode(true);
+          } 
+        }
+        if(creatingObject) {
+          if(e.getKeyCode() == 8 ){
+        	  
+          }
+
+          if(e.getKeyCode() == 10){
+            objCreator.setVisible(false);
+            creatingObject = false;
+            objCreator.createObject();
+          }
+        }
+        if(OverFlowMain.editMode && !creatingObject){
+          switch (letter) {
+          case 'n':
+            creatingObject = true;
+            objCreator.setLocation(OverFlowMain.frameMouseX, OverFlowMain.frameMouseY);
+            objCreator.setVisible(true);
+            break;
+          }
+
+          if(e.getKeyCode() == 10){
+            objCreator.setVisible(false);
+          }
+        }
+      }
+      public void keyReleased(java.awt.event.KeyEvent e, SGNode node) {
+      }
+      public void keyTyped(java.awt.event.KeyEvent e, SGNode node) {
+      }      
+    }
+    );
+  }
+
+
+  void createSlectionBox() {
+    selectionBox.setShape(new Rectangle2D.Double(0, 0, 0, 0));
+    selectionBox.setFillPaint(new Color(0, 255, 0, 20));      
+    selectionBox.setMode(SGShape.Mode.STROKE_FILL); 
+    selectionBox.setDrawPaint(new Color(0,0,255,20));
+    selectionBox.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
+    selectionBox.setVisible(false);
+    menu.add(selectionBox);
+  }
+
+  Rectangle2D.Double getSelectionRect(Point2D pPos, Point2D pos) {    //this handles the selection box so that when you draw in any direction in draws the shape correctly
+    double pX = pPos.getX();
+    double pY = pPos.getY();
+    double x = pos.getX();
+    double y = pos.getY();
+    double xLeft = 0;
+    double xRight = 0;
+    double yTop = 0;
+    double yBottom = 0;
+
+    if(pX < x) {
+      xLeft = pX;
+      xRight = x;
+    }
+    else if (pX > x){
+      xLeft = x;
+      xRight = pX;
+    }
+    if(pY < y) {
+      yTop = pY;
+      yBottom = y; 
+    }  
+    else {
+      yTop = y;
+      yBottom = pY;   
+    } 
+    Rectangle2D.Double rect = new Rectangle2D.Double(xLeft, yTop, xRight - xLeft, yBottom - yTop);
+    return rect; 
+  }
+
+  void unselectAll() {
+    for(Iterator i = OverFlowMain.currentSelectedConnections.iterator(); i.hasNext();) {
+      Connection con = (Connection)i.next();
+      con.setSelected(false);
+    }
+    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+      Node obj = (Node)i.next();
+      obj.setSelected(false);
+      selectionGroup.remove(obj.returnGroup());
+    }
+    OverFlowMain.currentSelectedConnections.removeAllElements();
+    OverFlowMain.currentSelectedObjects.removeAllElements();
+  }  
+
+  void updateAllSelectedConnections() {
+    for(int i = 0; i < OverFlowMain.currentSelectedObjects.size() - 1; i++) {
+      Node obj = (Node) OverFlowMain.currentSelectedObjects.get(i);
+      obj.updateConnectionLines();
+    }
+  }  
+
+  void deleteSelected() { 
+    for(Iterator i = OverFlowMain.currentSelectedConnections.iterator(); i.hasNext();) {
+      Connection con = (Connection)i.next();
+      con.kill();
+    }
+    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+      Node obj = (Node)i.next();
+      obj.killConnections();
+      OverFlowMain.objects.remove(obj);
+      OverFlowMain.rootGroup.remove(obj.returnGroup());
+    }
+    OverFlowMain.currentSelectedObjects.removeAllElements();
+    OverFlowMain.currentSelectedConnections.removeAllElements();
+  } 
+
+  public void bringSelectedToFront() {
+	    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+	        Node obj = (Node)i.next();
+	        obj.bringToFront();
+}
+}
+  
+ public void alignVertical() {
+    Float averageVal = 0f;
+    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+      Node n = (Node)i.next();
+ //     averageVal += n.getGlobalX() - n.groupT.getTranslateX();
+    }
+    averageVal /= OverFlowMain.currentSelectedObjects.size();
+    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+      Node n = (Node)i.next();
+      n.groupT.setTranslateX(averageVal);
+      n.updateConnectionLines();    
+    }
+  }
+
+  void alignHorizontal() {
+
+    float averageVal = 0f;
+    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+      Node obj = (Node)i.next();
+      averageVal += obj.getGlobalY() - obj.groupT.getTranslateY();
+    }
+    averageVal /= OverFlowMain.currentSelectedObjects.size();
+    for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {
+      Node obj = (Node)i.next();
+      obj.groupT.setTranslateY(averageVal);
+      obj.updateConnectionLines();  
+    }
+  }
+  
+  public void arrowKeyMover (int modifier, int keyId){
+      for(Iterator i = OverFlowMain.currentSelectedObjects.iterator(); i.hasNext();) {    
+          Node n = (Node)i.next();
+          if(keyId == 37) {
+            if(modifier == 1) {
+              n.groupT.translateBy(-10,0); 
+              n.setGlobal(-10, 0);
+              n.updateConnectionLines();             
+            }
+            n.groupT.translateBy(-1,0);
+            n.updateConnectionLines();
+          }
+          if(keyId == 39) {
+            if(modifier == 1) {
+              n.groupT.translateBy(10,0); 
+              n.setGlobal(10, 0);       
+              n.updateConnectionLines();      
+            }
+            n.groupT.translateBy(1,0);
+            n.updateConnectionLines();
+            n.setGlobal(1, 0);
+          }
+          if(keyId == 38) {
+            if(modifier == 1) {
+              n.groupT.translateBy(0,-10);
+              n.setGlobal(0, -10);
+              n.updateConnectionLines();              
+            }
+            n.groupT.translateBy(0,-1);
+            n.setGlobal(0, -1);
+            n.updateConnectionLines();
+          }
+          if(keyId == 40) {
+            if(modifier == 1) {
+              n.groupT.translateBy(0,10);
+              n.setGlobal(0, 10);
+              n.updateConnectionLines();              
+            }
+            n.groupT.translateBy(0,1);
+            n.setGlobal(0, 1);
+            n.updateConnectionLines();
+          }
+      }
+  }
+}
+
+
+
+

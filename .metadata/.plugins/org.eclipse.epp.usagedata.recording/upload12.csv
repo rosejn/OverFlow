@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.version,sysinfo,,,"1.6.0_17",1262454093949
+java.vm.info,sysinfo,,,"mixed mode, sharing",1262454093950
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1262454093950
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1262454093950
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1262454093950
+java.vm.specification.version,sysinfo,,,"1.0",1262454093950
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1262454093950
+java.vm.version,sysinfo,,,"14.3-b01",1262454093950
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262454094740
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262454102929
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262454121775
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262454127663
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262454129436
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262454135356
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262485289689
+started,bundle,jsc.jsclang.library,0.1.2,"jsc.jsclang.library",1262485301139
+started,bundle,jsc.ui.swingosc,0.1.2,"jsc.ui.swingosc",1262485301159
+started,bundle,jsc.jsclang,0.1.2,"jsc.jsclang",1262485301300
+started,bundle,jsc.core,0.1.2,"jsc.core",1262485301392
+started,bundle,jsc.ui,0.1.2,"jsc.ui",1262485301395
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262485301552
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262485307510
+activated,view,org.eclipse.ui.navigator.resources,3.4.1.M20090826-0800,"org.eclipse.ui.navigator.ProjectExplorer",1262485310024
+started,bundle,com.android.ide.eclipse.ddms,0.9.5.v200911191123-20404,"com.android.ide.eclipse.ddms",1262485310623
+started,bundle,com.android.ide.eclipse.adt,0.9.5.v200911191123-20404,"com.android.ide.eclipse.adt",1262485310716

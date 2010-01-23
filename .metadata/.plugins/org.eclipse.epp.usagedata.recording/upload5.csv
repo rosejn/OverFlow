@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+ws,sysinfo,,,"win32",1262453867179
+locale,sysinfo,,,"en_US",1262453867179
+processors,sysinfo,,,"2",1262453867179
+java.runtime.name,sysinfo,,,"Java(TM) SE Runtime Environment",1262453867179
+java.runtime.version,sysinfo,,,"1.6.0_17-b04",1262453867179
+java.specification.name,sysinfo,,,"Java Platform API Specification",1262453867179
+java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1262453867179
+java.specification.version,sysinfo,,,"1.6",1262453867179
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1262453867179
+java.version,sysinfo,,,"1.6.0_17",1262453867179
+java.vm.info,sysinfo,,,"mixed mode, sharing",1262453867179
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1262453867179
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1262453867179
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1262453867179
+java.vm.specification.version,sysinfo,,,"1.0",1262453867179
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1262453867179
+java.vm.version,sysinfo,,,"14.3-b01",1262453867179
+started,bundle,org.eclipse.mylyn.team.ui,3.2.2.v20090912-0400-e3x,"org.eclipse.mylyn.team.ui",1262453867193
+started,bundle,org.eclipse.update.scheduler,3.2.200.v20081127,"org.eclipse.update.scheduler",1262453867214
+started,bundle,org.eclipse.update.core,3.2.300.v20090525,"org.eclipse.update.core",1262453867360
+started,bundle,org.eclipse.mylyn.monitor.ui,3.2.2.v20090912-0400-e3x,"org.eclipse.mylyn.monitor.ui",1262453867526
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262453867828
+started,bundle,org.eclipse.epp.usagedata.ui,1.1.0.R200906100410,"org.eclipse.epp.usagedata.ui",1262453868286
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1262453875118
+started,bundle,org.eclipse.equinox.p2.ui,1.0.101.R35x_v20090819,"org.eclipse.equinox.p2.ui",1262453922423

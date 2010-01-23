@@ -1,0 +1,17 @@
+what,kind,bundleId,bundleVersion,description,time
+activated,view,org.eclipse.ui.console,3.4.0.v20090513,"org.eclipse.ui.console.ConsoleView",1263976896300
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263976903804
+activated,view,org.eclipse.ui.console,3.4.0.v20090513,"org.eclipse.ui.console.ConsoleView",1263976910987
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263976916197
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263976918824
+executed,command,,,"AUTOGEN:::org.eclipse.jdt.internal.ui.CompilationUnitEditor.ruler.actions/org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction",1263976921597
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263976926516
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263976927818
+closed,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263976928179
+stopped,bundle,org.eclipse.mylyn.ide.ant,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.ide.ant",1263976928389
+stopped,bundle,org.eclipse.ant.ui,3.4.1.v20090901_r351,"org.eclipse.ant.ui",1263976928412
+stopped,bundle,org.eclipse.compare.win32,1.0.0.I20090430-0408,"org.eclipse.compare.win32",1263976928455
+stopped,bundle,com.android.ide.eclipse.adt,0.9.5.v200911191123-20404,"com.android.ide.eclipse.adt",1263976928455
+stopped,bundle,org.eclipse.mylyn.java.tasks,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.java.tasks",1263976928455
+stopped,bundle,org.eclipse.mylyn.java.ui,3.3.1.v20091215-0000-e3x,"org.eclipse.mylyn.java.ui",1263976928455
+stopped,bundle,org.eclipse.jdt.junit,3.5.1.r351_v20090708-0800,"org.eclipse.jdt.junit",1263976928455

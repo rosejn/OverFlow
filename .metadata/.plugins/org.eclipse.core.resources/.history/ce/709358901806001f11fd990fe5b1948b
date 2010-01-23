@@ -1,0 +1,77 @@
+
+package overFlow.main;
+
+import java.awt.geom.*;
+import java.util.Vector;
+
+import com.sun.scenario.scenegraph.JSGPanel;
+import com.sun.scenario.scenegraph.SGGroup;
+import com.sun.scenario.scenegraph.SGText;
+import com.sun.scenario.scenegraph.fx.FXShape;
+
+
+final public class OverFlowMain {
+	public  static JSGPanel gpanel = new JSGPanel();
+	
+	public static Node currentInputObject;
+	public static Connection currentConnection;
+	public static InputPort currentInputIO;
+
+	public static SGText editModeLabel = new SGText();
+	public static boolean overMenu = false;
+	public static boolean connecting = false;
+	public static boolean connectionOver = false;
+	public static boolean objectOver = false;
+	public static boolean inputConnectionOver = false;
+	public static boolean snapMode = true;
+	public static boolean overSelection = false;    //for moving group of selected objects
+
+	public static boolean frameDragged;
+	public static  FXShape currentInputShape = new FXShape();
+	public static  FXShape currentOutputShape = new FXShape();
+
+	final public static SGGroup rootGroup = new SGGroup();  //application root scenegraph group
+
+	public Point2D.Double inputPoint = new Point2D.Double();
+	public Point2D.Double outputPoint = new Point2D.Double();
+
+	public static boolean editMode = true;  //global edit mode
+
+	public static Grid grid = new Grid(20);
+
+	public static int frameMouseX;  //global mouse location
+	public static int frameMouseY;  //global mouse location
+
+	public static Vector currentSelectedConnections = new Vector();
+	public static Vector currentSelectedObjects = new Vector();
+	public static Vector connections = new Vector();
+	public static Vector objects = new Vector();
+
+	public static System sys;
+	
+	public static void main(String args[]) {
+		
+		  new GUI().setVisible(true);
+		
+		}
+
+	
+public boolean getEditMode() {
+	return editMode;
+}
+
+public void setEditMode(boolean b) {
+	editMode = b;
+}
+
+
+
+public boolean getConnecting() {
+	return connecting;
+}
+
+public void setConnecting(boolean b) {
+	connecting = b;	
+}
+
+}

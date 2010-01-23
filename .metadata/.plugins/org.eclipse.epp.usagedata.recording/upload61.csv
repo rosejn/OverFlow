@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.vm.specification.version,sysinfo,,,"1.0",1263966738700
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1263966738700
+java.vm.version,sysinfo,,,"14.3-b01",1263966738700
+started,bundle,org.eclipse.epp.usagedata.ui,1.1.0.R200906100410,"org.eclipse.epp.usagedata.ui",1263966739787
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263966741548
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263966749681
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263966755713
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263966755826
+activated,view,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.PackageExplorer",1263966760463
+started,bundle,com.android.ide.eclipse.ddms,0.9.5.v200911191123-20404,"com.android.ide.eclipse.ddms",1263966760881
+started,bundle,com.android.ide.eclipse.adt,0.9.5.v200911191123-20404,"com.android.ide.eclipse.adt",1263966761489
+started,bundle,jsc.core,0.1.2,"jsc.core",1263966761571
+started,bundle,jsc.jsclang.library,0.1.2,"jsc.jsclang.library",1263966761744
+started,bundle,jsc.ui.swingosc,0.1.2,"jsc.ui.swingosc",1263966761857
+started,bundle,jsc.jsclang,0.1.2,"jsc.jsclang",1263966761981
+started,bundle,jsc.ui,0.1.2,"jsc.ui",1263966762132
+started,bundle,org.eclipse.compare,3.5.0.I20090514-0808,"org.eclipse.compare",1263966770661
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263966774348
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263966777644
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263966777709
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263966777748
+executed,command,org.eclipse.ltk.ui.refactoring,3.4.100.v20090604,"org.eclipse.ltk.ui.refactoring.commands.deleteResources",1263966777760
+executed,command,org.eclipse.ui,3.5.1.M20090902-1000,"org.eclipse.ui.edit.delete",1263966777760
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263966780251
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263966781860

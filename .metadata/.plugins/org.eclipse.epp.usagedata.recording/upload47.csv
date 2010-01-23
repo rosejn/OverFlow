@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1263354124723
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1263354124723
+java.vm.specification.version,sysinfo,,,"1.0",1263354124723
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1263354124723
+java.vm.version,sysinfo,,,"14.3-b01",1263354124723
+started,bundle,org.eclipse.epp.usagedata.ui,1.1.0.R200906100410,"org.eclipse.epp.usagedata.ui",1263354126011
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263354126801
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263354148504
+deactivated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263354155829
+activated,workbench,org.eclipse.ui.workbench,3.5.1.M20090826-0800a,"",1263354206624
+opened,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263354229695
+activated,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263354229766
+closed,editor,org.eclipse.jdt.ui,3.5.1.r351_v20090821-0800,"org.eclipse.jdt.ui.CompilationUnitEditor",1263354229767
+started,bundle,org.eclipse.wst.sse.core,1.1.401.v200909172215,"org.eclipse.wst.sse.core",1263354232685
+started,bundle,org.eclipse.gef,3.5.0.v20090528-1511,"org.eclipse.gef",1263354232799
+started,bundle,org.eclipse.draw2d,3.5.1.v20090813-1341,"org.eclipse.draw2d",1263354232908
+started,bundle,org.eclipse.wst.sse.ui,1.1.101.v200908261807,"org.eclipse.wst.sse.ui",1263354233392
+started,bundle,org.eclipse.wst.xml.core,1.1.401.v200908242115,"org.eclipse.wst.xml.core",1263354233554
+started,bundle,org.eclipse.debug.ui,3.5.1.v20090811_r351,"org.eclipse.debug.ui",1263354233859
+started,bundle,org.eclipse.wst.common.uriresolver,1.1.301.v200805140415,"org.eclipse.wst.common.uriresolver",1263354233932
+started,bundle,org.eclipse.wst.xml.ui,1.1.1.v200908242115,"org.eclipse.wst.xml.ui",1263354234025
+started,bundle,org.eclipse.wst.dtd.ui,1.0.400.v200904300717,"org.eclipse.wst.dtd.ui",1263354234815
+started,bundle,org.eclipse.emf.common,2.5.0.v200906151043,"org.eclipse.emf.common",1263354234883
+opened,editor,com.android.ide.eclipse.adt,0.9.5.v200911191123-20404,"com.android.ide.eclipse.editors.layout.LayoutEditor",1263354235099
+opened,view,org.eclipse.ui.views,3.4.1.M20090826-0800,"org.eclipse.ui.views.PropertySheet",1263354235199
