@@ -26,6 +26,7 @@ import overFlow.Objects.Divide;
 import overFlow.Objects.FloatDisp;
 import overFlow.Objects.Gate;
 import overFlow.Objects.Line;
+import overFlow.Objects.Loop;
 import overFlow.Objects.Map;
 import overFlow.Objects.Message;
 import overFlow.Objects.Multiply;
@@ -175,14 +176,14 @@ public class ObjectCreator2 {
 		String t;
 		t = title;
 
-		if (t.charAt(1) == '.' && t.charAt(0) == 'm') {
-			String subT = t.substring(2);
-			OverFlowMain.objects.add(new Message(subT, ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
-			OverFlowMain.rootGroup.add(n.returnGroup());
-		}
+//		if (t.charAt(1) == '.' && t.charAt(0) == 'm') {
+//			String subT = t.substring(2);
+//			OverFlowMain.objects.add(new Message(subT, ox, oy));
+//			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+//			OverFlowMain.rootGroup.add(n.returnGroup());
+//		}
 		
-		else if (t.equals("print")) {	
+		if (t.equals("print")) {	
 			if(argumentArray != null){
 				if(arguments.size() > 0){		//set to minimum arguments needed
 
@@ -304,6 +305,18 @@ public class ObjectCreator2 {
 			}
 		}
 
+		else if (t.equals("loop")) {	
+			if(argumentArray != null){
+				if(arguments.size() > 0){		//set to minimum arguments needed
+				int count = Integer.parseInt(arguments.get(0));
+				OverFlowMain.objects.add(new Loop(ox, oy, count));
+				Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+				OverFlowMain.rootGroup.add(n.returnGroup());
+				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
+				}
+			}
+		}
+		
 		else if (t.equals("counter")) {	
 			if(argumentArray != null){
 				if(arguments.size() > 0){		//set to minimum arguments needed
@@ -372,7 +385,7 @@ public class ObjectCreator2 {
 			}
 		}
 		
-		else if (t.equals("toggle")) {
+		else if (t.equals("toggle") || t.equals("t")) {
 			OverFlowMain.objects.add(new Toggle(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
 					.size() - 1);
@@ -386,7 +399,7 @@ public class ObjectCreator2 {
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
-		else if (t.equals("slider")) {
+		else if (t.equals("slider") || t.equals("sl")) {
 			OverFlowMain.objects.add(new Slider(ox, oy, 30, 150));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
 					.size() - 1);
@@ -408,7 +421,7 @@ public class ObjectCreator2 {
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
-		else if (t.equals("float")) {
+		else if (t.equals("float") || t.equals("f")) {
 			OverFlowMain.objects.add(new FloatDisp(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
 					.size() - 1);
