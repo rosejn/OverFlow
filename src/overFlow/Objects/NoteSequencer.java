@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import overFlow.Atom.AtomFloatArray;
+import overFlow.Atom.AtomInt;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
 
@@ -234,7 +236,7 @@ public class NoteSequencer extends Node {
 			for (int k = 0; k < numOctaves - 1; k++) {
 				for (int j = 0; j < 12; j++) {
 					stepVelocity[j + (k * 12)] = 0f;
-					keyStep[j + (k * 12)] = new NoteSeqStep(stepWidth - 1, stepHeight - stepHeight / 8);
+					keyStep[j + (k * 12)] = new NoteSeqStep(stepWidth - 1, stepHeight - stepHeight / 8, j + (k * 12));
 					keyStep[j + (k * 12)].setTranslateX(x + 2 + (i * stepWidth) + ((w / numSteps + 2) * 2) - stepWidth/2);
 					keyStep[j + (k * 12)].setTranslateY((((k * 12) + j) * stepHeight) + y);
 					if (j == 1 || j == 3 || j == 6 || j == 8 || j == 10) {
@@ -266,26 +268,35 @@ public class NoteSequencer extends Node {
 	
 	public void setCount(float countNumber){
 		for(int i = 0; i < numOctaves * 12; i++){
-			keyStep[(int) ((countNumber * 12) + i)].setDrawPaint(keyStrokeColor);	
+			keyStep[i + (numOctaves * i)].setDrawPaint(keyStrokeColor);	
 		}
 	}
 
 	public void setClearCount(float countNumber){
 		for(int i = 0; i < numOctaves * 12; i++){
-			keyStep[(int) ((countNumber * 12) + i)].setDrawPaint(stepCountColor);	
+			keyStep[i + (numOctaves * i)].setDrawPaint(stepCountColor);	
 		}
 	}
 	
 	public void update() {
 		if (inputValues[0] != null) {
-	//		value = inputValues[0];
+			value = inputValues[0];
 			setClearCount(lastValue);
-			setCount(value);
-			outputValues[0] = value;
-			redrawNode();
+			setCount(inputValues[0].getInt());
+			value = new AtomInt(inputValues[0].getInt());
+			outputValues[0] = new AtomFloatArray(getStepArray(inputValues[0].getInt()));
+			outputValues[1] = new AtomInt(getStepArray(inputValues[0].getInt()).length);
 			updateConnections();
-			lastValue = value;
 		}
+	}
+
+
+float[] getStepArray(int step) {
+	float[] returnArray = new float[numOctaves];
+	for(int i = 0; i < numSteps; i++){
+		returnArray[i] = keyStep[i + (numOctaves * 12)].getVelocity();
+	}
+	return returnArray;
 	}
 }
 
@@ -297,15 +308,17 @@ class NoteSeqStep {
 	float w;
 	float h;
 	float r;
-	float defaultVelocity = 100;
-	float velocity = 0;
+	int defaultVelocity = 100;
+	int velocity = 0;
 	int counter = 0;
 	Color keyStrokeColor = Color.gray;
 	boolean isAlive;
 	Color fillColor;
 	FXShape step = new FXShape();
-
-	NoteSeqStep(float tw, float th) {
+	int id;
+	
+	NoteSeqStep(float tw, float th, int iD) {
+		id = iD;
 		step.setShape(new Rectangle2D.Double(0, 0,tw, th));	
 		step.setMode(SGShape.Mode.STROKE_FILL);
 		step.setDrawStroke(new BasicStroke(0.5f));
@@ -314,7 +327,6 @@ class NoteSeqStep {
 		step.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
 		step.addMouseListener(new SGMouseAdapter() {
 			Point pos;
-
 			public void mouseEntered(MouseEvent e, SGNode n) {
 				FXShape node = (FXShape) n;
 				if (OverFlowMain.editMode == true) {
@@ -351,7 +363,7 @@ class NoteSeqStep {
 			public void mousePressed(MouseEvent e, SGNode n) {
 				FXShape node = (FXShape) n;
 				pos = e.getPoint();
-
+				System.out.println(id);
 				if (OverFlowMain.editMode != true) {
 					if (counter % 2 == 0) {
 						node.setDrawPaint(Color.orange);
@@ -380,6 +392,10 @@ class NoteSeqStep {
 
 	void setDrawPaint(Color c) 	{
 		step.setDrawPaint(c);
+	}
+	
+	public int getVelocity() {
+		return velocity;
 	}
 	
 	SGNode callStep() {

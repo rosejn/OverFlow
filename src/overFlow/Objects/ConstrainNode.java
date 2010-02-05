@@ -1,5 +1,6 @@
 package overFlow.Objects;
 
+import overFlow.Atom.AtomFloat;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 
@@ -17,12 +18,12 @@ public class ConstrainNode extends Node {
 	}
 
 	public void update() {
-		if (inputValues[0] != null) {
-			value = inputValues[0];
-			returnVal = Tools.constrain(value, minVal , maxVal);
-			value = returnVal;
+		try {
+			value = new AtomFloat(Tools.constrain(inputValues[0].getFloat(), minVal, maxVal));
 			outputValues[0] = value;
 			updateConnections();
+		} catch (NullPointerException e) {
+			
 		}
 	}
-} 
+}

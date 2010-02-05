@@ -5,52 +5,57 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import overFlow.Atom.AtomFloatArray;
+import overFlow.Atom.AtomInt;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 
-public class TimerNode extends Node {
+public class MetroList extends Node {
 
 	float delayTime = 100;
 	int trigger = 0;
 	TimerListener listener = new TimerListener(this);
 	Timer timer = new Timer((int) delayTime, listener);
-	int count = 0;
+	int counter = 0;
+	float[] floatArray = { 0, 0, 0, 0, 0 };
 
-	public TimerNode(String title, float tx, float ty, float delay) {
+	public MetroList(String title, float tx, float ty, float delay) {
 		super(title, tx, ty, 2, 1);
-		value = 0;
+		value = new AtomInt(0);
 		delayTime = delay;
-		timer.addActionListener(new TimerListener(this));
+		timer.addActionListener(new TimerListenerLister(this));
 	}
 
 	public void update() {
 		if (inputValues[0] != null) {
-			if (inputValues[0] == 0) {
+			if (inputValues[0].getInt() == 0) {
 				timer.stop();
-			} else if (inputValues[0] == 1) {
+			} else if (inputValues[0].getInt() == 1) {
 				timer.start();
 			}
-			if(inputValues[1] != null){
-				delayTime = inputValues[1];
+			if (inputValues[1] != null) {
+				delayTime = inputValues[1].getInt();
 				timer.setDelay((int) Tools.constrain(delayTime, 0));
 			}
-			outputValues[0] = value;
+			floatArray[0] = value.getFloat();
+			outputValues[0] = new AtomFloatArray(floatArray);
 			updateConnections();
 		}
 	}
 }
 
-class TimerListener implements ActionListener {
+class TimerListenerLister implements ActionListener {
 	Node n;
 
-	TimerListener(Node node) {
+	TimerListenerLister(Node node) {
 		n = node;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		n.value++;
+		n.counter++;
+		n.value = new AtomInt(n.counter);
 		n.update();
 	}
 

@@ -66,13 +66,13 @@ public class Loop extends Node {
 	
 	public void update() {
 		if (inputValues[0] != null) {
-			if (inputValues[0] == 0) {
+			if (inputValues[0].getInt() == 0) {
 				timer.stop();
-			} else if (inputValues[0] == 1) {
+			} else if (inputValues[0].getInt() == 1) {
 				timer.start();
 			}
 			if(inputValues[1] != null){
-				delayTime = inputValues[1].intValue();
+				delayTime = inputValues[1].getInt();
 				timer.setDelay((int) Tools.constrain(delayTime, 0));
 			}
 		}

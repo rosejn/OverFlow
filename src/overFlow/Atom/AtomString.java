@@ -4,6 +4,7 @@ public class AtomString extends Atom{
 	String stringValue;
 	
 	public AtomString(String value){
+		type = 4;
 		stringValue = value;
 
 	}

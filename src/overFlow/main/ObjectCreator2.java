@@ -25,10 +25,15 @@ import overFlow.Objects.Dial;
 import overFlow.Objects.Divide;
 import overFlow.Objects.FloatDisp;
 import overFlow.Objects.Gate;
+import overFlow.Objects.IntDisp;
 import overFlow.Objects.Line;
+import overFlow.Objects.List_size;
+import overFlow.Objects.List_slice;
 import overFlow.Objects.Loop;
 import overFlow.Objects.Map;
 import overFlow.Objects.Message;
+import overFlow.Objects.Metro;
+import overFlow.Objects.MetroList;
 import overFlow.Objects.Multiply;
 import overFlow.Objects.NoteSequencer;
 import overFlow.Objects.Peak;
@@ -37,15 +42,10 @@ import overFlow.Objects.Random;
 import overFlow.Objects.Slider;
 import overFlow.Objects.StepSequencer;
 import overFlow.Objects.Subtract;
-import overFlow.Objects.TimerNode;
 import overFlow.Objects.Toggle;
 import overFlow.Objects.Trough;
 import overFlow.Objects.Uzi;
-import overFlow.Objects.Math.Cos;
-import overFlow.Objects.Math.Drunk;
-import overFlow.Objects.Math.SQRT;
-import overFlow.Objects.Math.Sin;
-import overFlow.Objects.Math.Tan;
+
 import overFlow.Tools.Tools;
 
 import com.sun.scenario.scenegraph.SGGroup;
@@ -78,6 +78,7 @@ public class ObjectCreator2 {
 	public boolean over;
 	static boolean creating = false;
 	private String argumentArray;
+	int argumentCount = 0;
 	String text;
 
 	ObjectCreator2(float tx, float ty) {
@@ -202,70 +203,72 @@ public class ObjectCreator2 {
 			}
 		}
 
-		else if (t.equals("sqrt")) {
-			
-			OverFlowMain.objects.add(new SQRT(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
-			OverFlowMain.rootGroup.add(n.returnGroup());
-		}
-		
-		else if (t.equals("tan")) {
-			
-			OverFlowMain.objects.add(new Tan(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
-			OverFlowMain.rootGroup.add(n.returnGroup());
-		}
+//		else if (t.equals("sqrt")) {
+//			
+//			OverFlowMain.objects.add(new SQRT(ox, oy));
+//			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+//			OverFlowMain.rootGroup.add(n.returnGroup());
+//		}
+//		
+//		else if (t.equals("tan")) {
+//			
+//			OverFlowMain.objects.add(new Tan(ox, oy));
+//			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+//			OverFlowMain.rootGroup.add(n.returnGroup());
+//		}
+//
+//		else if (t.equals("cos")) {
+//			
+//			OverFlowMain.objects.add(new Cos(ox, oy));
+//			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+//			OverFlowMain.rootGroup.add(n.returnGroup());
+//		}
+//		
+//		else if (t.equals("sin")) {
+//			
+//			OverFlowMain.objects.add(new Sin(ox, oy));
+//			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+//			OverFlowMain.rootGroup.add(n.returnGroup());
+//		}
+//		
+//		else if (t.equals("drunk")) {
+//			
+//			OverFlowMain.objects.add(new Drunk(ox, oy));
+//			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+//			OverFlowMain.rootGroup.add(n.returnGroup());
+//		}
 
-		else if (t.equals("cos")) {
-			
-			OverFlowMain.objects.add(new Cos(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
-			OverFlowMain.rootGroup.add(n.returnGroup());
-		}
 		
-		else if (t.equals("sin")) {
-			
-			OverFlowMain.objects.add(new Sin(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
-			OverFlowMain.rootGroup.add(n.returnGroup());
-		}
-		
-		else if (t.equals("drunk")) {
-			
-			OverFlowMain.objects.add(new Drunk(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
-			OverFlowMain.rootGroup.add(n.returnGroup());
-		}
 		
 		else if (t.equals("gate")) {
-			
 			OverFlowMain.objects.add(new Gate(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();	
 		}
 		
 		else if (t.equals("peak")) {
-			
 			OverFlowMain.objects.add(new Peak(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();	
 		}
 		
 		else if (t.equals("trough")) {
-			
 			OverFlowMain.objects.add(new Trough(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();	
 		}
 		
-		else if (t.equals("noteseq")) {	
+		else if (t.equals("noteseq") || t.equals("ns")) {	
 				OverFlowMain.objects.add(new NoteSequencer(ox, oy));
 				Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 				OverFlowMain.rootGroup.add(n.returnGroup());
 				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
 		}
 
-		else if (t.equals("bang")) {	
+		else if (t.equals("bang") || t.equals("b")) {	
 			OverFlowMain.objects.add(new Bang(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
@@ -277,6 +280,25 @@ public class ObjectCreator2 {
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 			arguments.clear();				//always clear the argument array for the next creation or else you have left overs
+		}
+		
+		else if (t.equals("lsSize")) {
+			OverFlowMain.objects.add(new List_size(text, ox, oy));
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();	
+		}
+
+		else if (t.equals("lsSlice")) {	
+			if(argumentArray != null){
+				if(arguments.size() > 0){		//set to minimum arguments needed
+				int count = Integer.parseInt(arguments.get(0));
+				OverFlowMain.objects.add(new List_slice(text, ox, oy, count));
+				Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+				OverFlowMain.rootGroup.add(n.returnGroup());
+				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
+				}
+			}
 		}
 		
 		else if (t.equals("uzi")) {	
@@ -328,10 +350,6 @@ public class ObjectCreator2 {
 				}
 			}
 		}
-
-		else if (t.equals("math.>")) {
-		System.out.println(">>>>>>>");
-		}
 		
 		else if (t.equals("map")) {	
 			if(argumentArray != null){
@@ -374,11 +392,21 @@ public class ObjectCreator2 {
 				}
 			}
 		}
+
+		else if (t.equals("metrolist")) {	
+			if(arguments.size() > 0){		//set to minimum arguments needed
+			float delayTime = Float.parseFloat(arguments.get(0));
+			OverFlowMain.objects.add(new MetroList(text, ox, oy, delayTime));
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();				//always clear the argument array for the next creation or else you have left overs
+			}
+		}
 		
-		else if (t.equals("timer")) {	
+		else if (t.equals("metro")) {	
 				if(arguments.size() > 0){		//set to minimum arguments needed
 				float delayTime = Float.parseFloat(arguments.get(0));
-				OverFlowMain.objects.add(new TimerNode(text, ox, oy, delayTime));
+				OverFlowMain.objects.add(new Metro(text, ox, oy, delayTime));
 				Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 				OverFlowMain.rootGroup.add(n.returnGroup());
 				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
@@ -387,79 +415,75 @@ public class ObjectCreator2 {
 		
 		else if (t.equals("toggle") || t.equals("t")) {
 			OverFlowMain.objects.add(new Toggle(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else if (t.equals("dial")) {
 			OverFlowMain.objects.add(new Dial(ox, oy, 50));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else if (t.equals("slider") || t.equals("sl")) {
 			OverFlowMain.objects.add(new Slider(ox, oy, 30, 150));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
-		else if (t.equals("stepseq")) {
-			OverFlowMain.objects
-					.add(new StepSequencer(ox, oy, 400, 150, 16, 8));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+		else if (t.equals("stepseq") || t.equals("ss")) {
+			OverFlowMain.objects.add(new StepSequencer(ox, oy, 400, 150, 16, 8));
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else if (t.equals("+")) {
 			OverFlowMain.objects.add(new Add(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
+		else if (t.equals("int") || t.equals("i")) {
+			OverFlowMain.objects.add(new IntDisp(ox, oy));
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+			OverFlowMain.rootGroup.add(n.returnGroup());
+		}
+		
 		else if (t.equals("float") || t.equals("f")) {
 			OverFlowMain.objects.add(new FloatDisp(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else if (t.equals("subtract")) {
 			OverFlowMain.objects.add(new Subtract(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else if (t.equals("multiply")) {
 			OverFlowMain.objects.add(new Multiply(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else if (t.equals("divide")) {
 			OverFlowMain.objects.add(new Divide(ox, oy));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 
 		else {
 			OverFlowMain.objects.add(new Node(t, ox, oy, 0, 0));
-			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects
-					.size() - 1);
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 			OverFlowMain.rootGroup.add(n.returnGroup());
 		}
 		sgText.setText("");
 		creating = false;
 	}
 
-
+	
+	
 	class TextEntryListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
@@ -478,11 +502,9 @@ public class ObjectCreator2 {
 			}
 			
 			if(arg0.getKeyCode() == 10) {
-			     setVisible(false);
-
-				int argumentCount = 0;	
+			    setVisible(false);	
+			    argumentCount = 0;
 				text = textEntry.getText();
-
 				keyCount = 0;	
 				textEntry.setText(" ");
 				textEntry.setColumns(keyCount/2 + 5);

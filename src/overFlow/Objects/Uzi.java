@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import overFlow.Atom.AtomString;
 import overFlow.main.Node;
 
 
@@ -35,7 +36,7 @@ public class Uzi extends Node{
 				timer.stop();
 			}
 		}
-		outputValues[0] = -9999f;	//-9999f == bang for now (until there is string support)
+		outputValues[0] = new AtomString("bang");	//-9999f == bang for now (until there is string support)
 		updateConnections();
 		
 		if(count == numBangs){

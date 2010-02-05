@@ -4,20 +4,25 @@ import overFlow.main.Node;
 
 public class Gate extends Node {
 
+	int gateToggle = 0;
+
 	public Gate(float tx, float ty) {
 		super("gate", tx, ty, 2, 1);
 
 	}
 
 	public void update() {
-		if (inputValues[0] != null) {
-			if (inputValues[0] == 1) {
-				if (inputValues[1] != null) {
-					value = inputValues[1];
-				}
+		try {
+			if (gateToggle == 1) {
+				value = inputValues[1];
+				outputValues[0] = value;
+				updateConnections();
 			}
-			outputValues[0] = value;
-			updateConnections();
+		} catch (NullPointerException e) {
+		}
+		try {
+			gateToggle = inputValues[0].getInt();
+		} catch (NullPointerException e) {
 		}
 	}
 }

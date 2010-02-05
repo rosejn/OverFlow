@@ -1,5 +1,7 @@
 package overFlow.Objects;
 
+import overFlow.Atom.AtomFloat;
+import overFlow.Tools.Tools;
 import overFlow.main.Node;
 
 public class Map extends Node {
@@ -20,13 +22,14 @@ public class Map extends Node {
 	}
 
 	public void update() {
-		if (inputValues[0] != null) {
+		try{
 			value = inputValues[0];
-			float scaleFactor = (tgtMax - tgtMin) / (srcMax - srcMin);
-			float scaledValue = (value - srcMin) * scaleFactor + tgtMin;
-			value = scaledValue;
+			value = new AtomFloat(Tools.map(value.getFloat(), srcMin, srcMax, tgtMin, tgtMax));
+			outputValues[0] = value;
+			updateConnections();
+		}catch (NullPointerException e){
+			
 		}
-		outputValues[0] = value;
-		updateConnections();
+
 	}
 }

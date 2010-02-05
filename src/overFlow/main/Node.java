@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 
+import overFlow.Atom.Atom;
 import overFlow.Tools.Tools;
 
 import com.sun.scenario.effect.DropShadow;
@@ -43,10 +44,11 @@ public class Node {
 	public float globalY;
 	public float w;
 	public float bw;
+	public float updateWidth;
 	private float nodeWidth;
 	public float h = 20;
 	public int r;
-	public float value;
+	public Atom value;
 	public int outputs;
 	public int inputs;
 	public int outLockedID;
@@ -59,8 +61,6 @@ public class Node {
 	public float inConnectionWidth;
 	public int counter = 0;
 
-	Float obj_value = new Float(value);
-	
 	int currentConnectionIDout;
 	int currentConnectionIDin1;
 	SGNode connectionOverNode;
@@ -68,7 +68,6 @@ public class Node {
 	// for interaction
 	public boolean dragged = false;
 	boolean press = false;
-	boolean scaleable = true;
 	boolean rollover;
 	boolean locked;
 	public boolean over;
@@ -77,6 +76,9 @@ public class Node {
 	public boolean selected = false;
 	public boolean movingSelected = false;
 	public static boolean moving = false;
+	boolean scaleable = true;
+	private boolean scaleWidthOnly = true;
+	public boolean scaling = false;
 
 	protected Color strokeColor = new Color(150, 150, 150);
 	protected Color fillColor = new Color(250,250,250);
@@ -95,8 +97,8 @@ public class Node {
 
 	public Vector<Connection> outputConnections = new Vector<Connection>();
 	public Vector<Connection> inputConnections = new Vector<Connection>();
-	public Float[] outputValues;
-	public Float[] inputValues;
+	public Atom[] outputValues;
+	public Atom[] inputValues;
 
 	Point anchorGlobal = new Point();
 	Point NMouseDragged;
@@ -156,11 +158,11 @@ public class Node {
 		h = th;
 		xOffset = 0;
 		yOffset = 0;
-
+		updateWidth = w;
 
 		rect = title.getBounds();
-		inputValues = new Float[inputs];
-		outputValues = new Float[outputs];
+		inputValues = new Atom[inputs];
+		outputValues = new Atom[outputs];
 
 		outputConnectionPressed = false;
 		group.add(subGroup);
@@ -188,9 +190,9 @@ public class Node {
 		Rectangle2D rect;
 		rect = title.getBounds();
 		w = Tools.constrain((float) rect.getWidth() + 20, 20, 100000);
-
-		inputValues = new Float[inputs];
-		outputValues = new Float[outputs];
+		updateWidth = w;
+		inputValues = new Atom[inputs];
+		outputValues = new Atom[outputs];
 
 		outputConnectionPressed = false;
 		group.add(subGroup);
@@ -208,7 +210,6 @@ public class Node {
 	void createInputPorts() {
 		inConnectionWidth = 6;
 		inConnectionGap = (nodeWidth / inputs    );
-		System.out.println(w);
 		inputPorts = new InputPort[inputs];
 
 		if (inputs == 2) {
@@ -272,6 +273,7 @@ public class Node {
 				if (isInSelectionGroup) {
 					OverFlowMain.overSelection = true;
 				}
+
 			}
 
 			public void mouseMoved(MouseEvent e, SGNode n) {
@@ -280,6 +282,12 @@ public class Node {
 				mY = pos.y;
 				mouseMovedX = e.getX();
 				mouseMovedY = e.getY();
+				if(mX < x + w && mX > (x + w - 5) && mY > y + h - 5 && mY < y + h) {
+					scaling = true;
+					}
+				else {
+					scaling = false;
+				}
 
 			}
 
@@ -326,15 +334,28 @@ public class Node {
 				dragged = true;
 				mouseDraggedX = e.getX();
 				mouseDraggedY = e.getY();
-				if (mouseDraggedX - mouseDraggedX < 100) {
-					xVelocity = mouseDraggedX - mouseDraggedX;
+				if (mouseDraggedX - pMouseDraggedX < 100) {			//this stops the velocity values from initial being something like 100
+					xVelocity = mouseDraggedX - pMouseDraggedX;
 				}
-				if (mouseDraggedY - pMouseDraggedY < 100) {
+				if (mouseDraggedY - pMouseDraggedY < 100) {			//this stops the velocity values from initial being something like 100
 					yVelocity = mouseDraggedY - pMouseDraggedY;
 				}
 				if (OverFlowMain.editMode) {
 					if (pos != null) {
-						if (!connectionOver) {
+						if(scaling){
+							if(isScaleWidthOnly()){
+								w = mouseDraggedX - x;
+								baseRect.setShape(new RoundRectangle2D.Float(0, 0, w, h, r, r));
+								System.out.println(xVelocity);
+							}
+							else {
+								h = mouseDraggedY - y;
+								w = mouseDraggedX - x;
+								baseRect.setShape(new RoundRectangle2D.Float(0, 0, w, h, r, r));
+								System.out.println("scaling width + height");
+							}
+						}
+						else if(!connectionOver && !scaling) {		//if not creating connections or scaling the object, move it
 							NMouseDragged = e.getPoint();
 							Point new_pos = e.getPoint();
 							tx = new_pos.x - pos.x;
@@ -354,8 +375,8 @@ public class Node {
 							}
 						}
 					}
-					updateConnections();
-					updateConnectionLines();
+					
+					updateConnectionLines();			//update connection line drawing after interacting with the object
 				}
 				pMouseDraggedX = e.getX();
 				pMouseDraggedY = e.getY();
@@ -365,6 +386,18 @@ public class Node {
 		return group;
 	}
 
+	public void scaleObject(){
+		if(isScaleWidthOnly()){
+			w += xVelocity;
+			System.out.println("scaling width");
+		}
+		else {
+			w += xVelocity;
+			y += yVelocity;
+			System.out.println("scaling width + height");
+		}
+	}
+	
 	public void createShadow() {
 		iShadow.setColor(new Color(255, 255, 255));
 		iShadow.setRadius(5);
@@ -442,14 +475,9 @@ public class Node {
 
 	}
 
-	public void updateInputValues() {
-
-	}
-
-	public void updateInputValue(int id, float inputValue) {
+	public void updateInputValue(int id, Atom inputValue) {
 		inputValues[id] = inputValue;
-		redrawNode();
-		updateConnections();
+		update();
 	}
 
 	public void setGlobalX(float gx) {
@@ -473,13 +501,11 @@ public class Node {
 		return globalY;
 	}
 
-	public float getOutputValue(int id) {
-		float returnValue;
+	public Atom getOutputValue(int id) {
+		Atom returnValue = null;
 		if (outputValues[id] != null) {
 			returnValue = outputValues[id];
-		} else {
-			returnValue = 0;
-		}
+		} 
 		return returnValue;
 	}
 
@@ -616,6 +642,14 @@ public class Node {
 	}
 	void setOutputToolTipDrawPaint(int id, Color c){
 		outputPorts[id].setToolTipDraw(c);
+	}
+
+	public void setScaleWidthOnly(boolean scaleWidthOnly) {
+		this.scaleWidthOnly = scaleWidthOnly;
+	}
+
+	public boolean isScaleWidthOnly() {
+		return scaleWidthOnly;
 	}
 }
 

@@ -1,33 +1,39 @@
 package overFlow.Objects;
 
+import overFlow.Atom.AtomFloat;
 import overFlow.main.Node;
 
 public class Trough extends Node {
 
-	float lastValue;
+	AtomFloat lastValue;
 		
 	public Trough(float tx, float ty) {
 		super("trough", tx, ty, 2, 2);
-
+		lastValue = new AtomFloat(0);
 	}
 
 	public void update() {
-		if (inputValues[0] != null) {
-			if(inputValues[0] < lastValue){
+		try {
+			if(inputValues[1].getString() == "bang") {
+				lastValue = new AtomFloat(value.getFloat());
+			}
+		}catch (NullPointerException e){
+		}
+		try {
+			if(inputValues[0].getFloat() < lastValue.getFloat()){
 				value = inputValues[0];
-				lastValue = inputValues[0];
+				lastValue = new AtomFloat(inputValues[0].getFloat());
+				outputValues[0] = value;
 			}
 			else {
 				outputValues[1] = value;
 			}
+		
+			updateConnections();
+		}catch (NullPointerException e){
+			
 		}
 
-		if (inputValues[1] != null) {
-			if(inputValues[1] == -9999f) {
-				lastValue = 0;
-			}
-		}
-		outputValues[0] = value;
-		updateConnections();
+
 	}
 }

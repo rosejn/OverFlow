@@ -1,14 +1,37 @@
 package overFlow.Atom;
 
-public class AtomArray extends Atom{
+import java.util.Vector;
 
-	Atom[] atomArray;
+public class AtomArray extends Atom {
 	
-		AtomArray(Atom[] aArray){
-			atomArray = aArray;
-		}
-		
-		Atom[] getAtomArray(){
-			return atomArray;
-		}
+	Vector<Atom> atomArray = new Vector<Atom>();
+	
+	public AtomArray(Vector<Atom> aArray) {
+		type = 7;
+		atomArray = aArray;
+		setList(true);
+	}
+
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[] getStringArray() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public int getSize() {
+		return atomArray.size();
+	}
+
+	public Vector<Atom> getAtomArray() {
+		// TODO Auto-generated method stub
+		return atomArray;
+	}
 }

@@ -1,5 +1,6 @@
 package overFlow.Objects;
 
+import overFlow.Atom.AtomInt;
 import overFlow.main.Node;
 
 public class Counter extends Node {
@@ -14,19 +15,20 @@ public class Counter extends Node {
 	}
 
 	public void update() {
-		if(inputValues[1] != null) {
-			direction = inputValues[1];
-			System.out.println(direction);
+		try {
+			direction = inputValues[1].getInt();
 		}
-		if (inputValues[0] != null) {
+		catch (NullPointerException e){
+		}
+		
 			if(direction == 0) {
 				counter--;
 			}
 			else if(direction == 1){
 				counter++;
 			}
-		}
 
+		
 		if (counter >= maxCount) {
 			counter = 1;
 		} else if (counter == 0) {
@@ -36,7 +38,8 @@ public class Counter extends Node {
 		if (counter <= 0) {
 			counter = maxCount;
 		}
-		outputValues[0] = (float) counter;
+		outputValues[0] = new AtomInt(counter);
 		updateConnections();
 	}
 }
+

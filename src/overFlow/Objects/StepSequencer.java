@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import overFlow.Atom.AtomFloatArray;
+import overFlow.Atom.AtomInt;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
 
@@ -22,6 +24,8 @@ public class StepSequencer extends Node {
 	Step[][] stepGroup;
 	SGShape featuresBack = new SGShape();
 	SGGroup steps;
+	int tracks;
+	int stepCount;
 	float sw;
 	float sh;
 	float sr;
@@ -31,9 +35,12 @@ public class StepSequencer extends Node {
 
 	public StepSequencer(float tx, float ty, float tw, float th, float tsteps, float ttracks) {
 		super("", tx, ty, tw, th, 2, 2);
+		setScaleWidthOnly(false);
 		fillColor = (new Color(200,200,200));
 		x = 0;
 		y = 0;
+		tracks = (int) ttracks;
+		stepCount = (int) tsteps;
 		super.w = tw;
 		super.h = th;
 		w = tw;
@@ -43,13 +50,13 @@ public class StepSequencer extends Node {
 		preffs = new PrefBtn(tx + tw - 30, ty - 7, 5);
 
 		base.setShape(new RoundRectangle2D.Float(0, 0, tw, th, r, r));
-		stepGroup = new Step[(int) tsteps][(int) ttracks];
+		stepGroup = new Step[(int) stepCount][(int) tracks];
 		steps = new SGGroup();
-		sw = (tw / tsteps);
-		sh = (th / ttracks);
-		sr = (tw / tsteps) / 4;
-		for (int i = 0; i < tsteps; i++) {
-			for (int j = 0; j < ttracks; j++) {
+		sw = (tw / stepCount);
+		sh = (th / tracks);
+		sr = (tw / stepCount) / 4;
+		for (int i = 0; i < stepCount; i++) {
+			for (int j = 0; j < tracks; j++) {
 				stepGroup[i][j] = new Step(2 + (i * sw) + tx, 2 + (j * sh) + ty, sw - 4, sh - 4, sr);
 				steps.add(stepGroup[i][j].callStep());
 			}
@@ -101,7 +108,23 @@ public class StepSequencer extends Node {
 		}
 	}
 
-}
+	
+	public void update() {
+			value = new AtomInt(inputValues[0].getInt());
+			outputValues[0] = new AtomFloatArray(getStepArray(inputValues[0].getInt()));
+			outputValues[1] = new AtomInt(getStepArray(inputValues[0].getInt()).length);
+			updateConnections();
+		
+	}
+	
+	float[] getStepArray(int step) {
+		float[] returnArray = new float[tracks];
+		for(int i = 0; i < tracks; i++){
+			returnArray[i] = stepGroup[step][i].getVelocity();
+		}
+		return returnArray;
+		}
+	}
 
 class Step {
 	float x;
@@ -185,4 +208,8 @@ class Step {
 		return step;
 	}
 
+	float getVelocity() {
+		return velocity;
+	}
+	
 }

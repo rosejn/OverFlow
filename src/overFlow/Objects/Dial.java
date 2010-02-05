@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 
+import overFlow.Atom.AtomFloat;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
@@ -22,7 +23,6 @@ public class Dial extends Node {
 	FXShape bigArc = new FXShape();
 	FXShape smallEllipse = new FXShape();
 	SGGroup subGroup = new SGGroup();
-	DropShadow iShadow = new DropShadow();
 	double theta = 0;
 	SGTransform.Affine dialAffine;
 	PrefBtn preffs;
@@ -32,6 +32,7 @@ public class Dial extends Node {
 
 	public Dial(float tx, float ty, float size) {
 		super("", tx, ty, size, size, 1, 1);
+		setScaleWidthOnly(false);
 		createDial();
 		fillColor = new Color(200,200,200);
 	}
@@ -54,10 +55,6 @@ public class Dial extends Node {
 		smallEllipse.setDrawStroke(new BasicStroke(2));
 		smallEllipse.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
 
-		iShadow.setColor(new Color(0, 255, 0, 150));
-		iShadow.setRadius(5);
-
-		smallEllipse.setEffect(iShadow);
 		preffs = new PrefBtn(x + w - 8, y + 4, 5);
 		group.add(preffs.btnGroup);
 
@@ -77,7 +74,7 @@ public class Dial extends Node {
 			theta -= MainFrameInput.yVel * 0.02;
 			theta = Tools.constrain((float) theta, (float) -2.6, (float) 2.6);
 			rotate(theta);
-			value = (float) ((theta * -2.6) / (2.6 - -2.6) * ((100 - 0) + 0));
+			value = new AtomFloat(Tools.map((float)theta, -2.6f, 2.6f, 0f, 100f));
 			outputValues[0] = value;
 			super.updateConnections();
 		}
@@ -98,13 +95,12 @@ public class Dial extends Node {
 	public void update() {
 		if (inputValues[0] != null) {
 			value = inputValues[0];
-			value = Tools.constrain(value, 0, 100);
+			value = new AtomFloat(Tools.constrain(value.getFloat(), 0, 100));
 			outputValues[0] = value;
 			updateConnections();
-			theta = Tools.map(value, 0f, 100f, -2.6f, 2.6f);
+			theta = Tools.map(value.getFloat(), 0f, 100f, -2.6f, 2.6f);
 			theta = Tools.constrain((float) theta, -2.6f, 2.6f);
 			rotate(theta);
-			redrawNode();
 		}
 	}
 

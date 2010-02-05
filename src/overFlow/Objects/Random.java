@@ -1,5 +1,6 @@
 package overFlow.Objects;
 
+import overFlow.Atom.AtomFloat;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 
@@ -26,7 +27,7 @@ public class Random extends Node {
 		public void update() {
 			if (inputValues[0] != null) {
 				value = inputValues[0];
-				value = Tools.random(rangeMin, rangeMax);
+				value = new AtomFloat(Tools.random(rangeMin, rangeMax));
 				outputValues[0] = value;
 				updateConnections();
 			}

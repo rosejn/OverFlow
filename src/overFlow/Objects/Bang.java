@@ -9,6 +9,7 @@ import com.sun.scenario.scenegraph.SGGroup;
 import com.sun.scenario.scenegraph.SGShape;
 import com.sun.scenario.scenegraph.fx.FXShape;
 
+import overFlow.Atom.AtomString;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
 
@@ -21,31 +22,40 @@ public class Bang extends Node {
 	public Bang(float tx, float ty) {
 		super("", tx, ty, 30, 30, 1, 1);
 		this.addToGroup(createBang());
+		value = new AtomString("bang");
 	}
 
 	public void update() {
-		if (inputValues[0] != null) {
-			value = -9999f;
-		}
-		outputValues[0] = -9999f;
+		outputValues[0] = value;
+		bangOn();
+		bangOff();
 		updateConnections();
 	}
 	
 	public void nodePressed() {
 		if(!OverFlowMain.editMode){
-			circle.setFillPaint(bangHitFillPaint);
+			bangOn();
 			update();
 		}
 	}
-	
+
 	public void nodeReleased() {
+		bangOff();
+	}
+	
+	
+	private void bangOn() {
+		circle.setFillPaint(bangHitFillPaint);
+	}
+
+	private void bangOff() {
 		circle.setFillPaint(bangFillPaint);
 	}
 
 	SGGroup createBang() {
 		SGGroup g = new SGGroup();
 		circle.setShape(new Ellipse2D.Float(x + 3, y + 3, w - 6, h - 6));
-		circle.setFillPaint(bangFillPaint);
+		bangOff();
 		circle.setDrawPaint(bangDrawPaint);
 		circle.setMode(SGShape.Mode.STROKE_FILL);
 		circle.setDrawStroke(new BasicStroke(2.0f));

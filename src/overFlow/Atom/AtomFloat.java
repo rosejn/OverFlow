@@ -5,10 +5,15 @@ public class AtomFloat extends Atom{
 	Float fVal;
 	
 	public AtomFloat(float value){
+		type = 2;
 		floatValue = value;
 		fVal = new Float(value);
 	}
 
+	public AtomFloat(double value){
+		floatValue = (float)value;
+		fVal = new Float(value);
+	}
 	/**
 	 * @return the float value
 	 */
@@ -19,7 +24,7 @@ public class AtomFloat extends Atom{
 	/**
 	 * @return the integer value
 	 */
-	public float getInt() {
+	public int getInt() {
 		Integer valueInt = fVal.intValue();
 		return valueInt;
 	}	

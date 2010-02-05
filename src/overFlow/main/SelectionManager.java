@@ -93,10 +93,11 @@ public class SelectionManager {
 
 	void unselectAll() {
 
-		for (Iterator<Connection> i = OverFlowMain.currentSelectedConnections.iterator(); i
-				.hasNext();) {
+		for (Iterator<Connection> i = OverFlowMain.currentSelectedConnections.iterator(); i.hasNext();) {
 			Connection con = (Connection) i.next();
-			con.setSelected(false);
+			if(con.getSelected()){
+				con.setSelected(false);
+			}
 		}
 
 		for (Iterator<Node> i = OverFlowMain.currentSelectedObjects.iterator(); i

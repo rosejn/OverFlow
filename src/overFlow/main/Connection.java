@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.Math;
 
+import overFlow.Atom.Atom;
 
 import com.sun.scenario.effect.DropShadow;
 import com.sun.scenario.scenegraph.SGGroup;
@@ -37,19 +38,19 @@ public class Connection {
 	int srcId;
 	int tgtId;
 	float strokeWidth = 5;
-	
+
 	double x1;
 	double y1;
 	double x2;
 	double y2;
-	
-	float lastValue;
+
+	Atom lastValue;
 
 	Node currentObject;
 	Node srcParent;
 	Node tgtParent;
 
-    SGGroup connectionGroup = new SGGroup();
+	SGGroup connectionGroup = new SGGroup();
 
 	public Connection(FXShape srcConnection, Node p, int id) {
 		creating = true;
@@ -58,18 +59,19 @@ public class Connection {
 		srcPort = srcConnection;
 		start = getPortCenter(srcPort);
 
-		connectionLine.setShape(new Path2D.Double(new Line2D.Double(outLocation, outLocation)));
+		connectionLine.setShape(new Path2D.Double(new Line2D.Double(
+				outLocation, outLocation)));
 		connectionLine.setDrawPaint(Color.white);
 		connectionLine.setMode(SGShape.Mode.STROKE_FILL);
 		connectionLine.setDrawStroke(new BasicStroke(1));
 		connectionLine.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
 		connectionLine.setOpacity(1);
 
-
-		lineListener.setShape(createLinePath(outLocation, outLocation, strokeWidth));
+		lineListener.setShape(createLinePath(outLocation, outLocation,
+				strokeWidth));
 		lineListener.setOpacity(0f);
 		lineListener.addMouseListener(new SGMouseAdapter() {
-			
+
 			public void mouseEntered(MouseEvent e, SGNode n) {
 				over = true;
 				OverFlowMain.connectionOver = true;// global over
@@ -115,7 +117,7 @@ public class Connection {
 	}
 
 	public void drag(int mx, int my) {
-		if(!Node.moving){
+		if (!Node.moving) {
 			end = new Point2D.Double(mx, my);
 			connectionLine.setShape(new Line2D.Double(start, end));
 			createLinePath(start, end, strokeWidth);
@@ -125,12 +127,17 @@ public class Connection {
 
 	public void update() {
 		if (OverFlowMain.editMode) {
-			start = getPortCenter(srcPort);
-			end = getPortCenter(tgtPort);
-			connectionLine.setShape(new Line2D.Double(start, end));
-			createLinePath(start, end, strokeWidth);
-			lineListener.setShape(createLinePath(start, end, strokeWidth));
+			try {
+				start = getPortCenter(srcPort);
+				end = getPortCenter(tgtPort);
+				connectionLine.setShape(new Line2D.Double(start, end));
+				createLinePath(start, end, strokeWidth);
+				lineListener.setShape(createLinePath(start, end, strokeWidth));
+			} catch (NullPointerException e) {
+
+			}
 		}
+
 	}
 
 	public void kill() {
@@ -148,7 +155,9 @@ public class Connection {
 	// //get the location of the current FXShape
 	Point2D.Double shapeLocation(FXShape s) {
 		Rectangle2D nodeShape = s.getBounds();
-		returnPoint.setLocation(nodeShape.getX() + (nodeShape.getWidth() - nodeShape.getX()) / 2, nodeShape.getY());
+		returnPoint.setLocation(nodeShape.getX()
+				+ (nodeShape.getWidth() - nodeShape.getX()) / 2, nodeShape
+				.getY());
 		return returnPoint;
 	}
 
@@ -169,10 +178,8 @@ public class Connection {
 	}
 
 	public void updateData() {
-		if(!creating){
+		if (!creating) {
 			tgtParent.updateInputValue(tgtId, srcParent.getOutputValue(srcId));
-			tgtParent.update();
-			tgtParent.redrawNode();
 			lastValue = srcParent.getOutputValue(srcId);
 		}
 	}
@@ -193,24 +200,27 @@ public class Connection {
 			connectionLine.setDrawStroke(new BasicStroke(1));
 		}
 	}
+	
+	public boolean getSelected() {
+		return selected;
+	}
 
 	public SGGroup returnGroup() {
 		return connectionGroup;
 	}
 
 	public static void setVisible(boolean b) {
-	//	connectionGroup.setVisible(b);
+		// connectionGroup.setVisible(b);
 	}
 
-	
-	
 	Path2D createLinePath(Point2D p1, Point2D p2, float stroke) {
 		double x1 = p1.getX();
 		double y1 = p1.getY();
 		double x2 = p2.getX();
 		double y2 = p2.getY();
-		double theta = Math.atan((x1 - x2) / (float)(y1 - y2));
-	//	System.out.println(Math.toDegrees(theta) + "  " + Math.cos(theta - Math.toRadians(180.0)));
+		double theta = Math.atan((x1 - x2) / (float) (y1 - y2));
+		// System.out.println(Math.toDegrees(theta) + "  " + Math.cos(theta -
+		// Math.toRadians(180.0)));
 		double xa = x1 + strokeWidth * Math.cos(theta);
 		double ya = y1 + strokeWidth * Math.sin(theta);
 		double xb = x1 + strokeWidth * Math.cos(theta - Math.PI);
@@ -229,5 +239,4 @@ public class Connection {
 		return path;
 	}
 
-	
 }

@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
+
+import overFlow.Atom.AtomFloat;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
@@ -20,7 +22,7 @@ import com.sun.scenario.scenegraph.event.SGMouseAdapter;
 import com.sun.scenario.scenegraph.fx.FXShape;
 
 public class Slider extends Node {
-	  InnerShadow iShadow = new InnerShadow();
+	  Float sliderVal = new Float(0);
 	  float xOffset;
 	  float yOffset;
 	  float widthOffset;
@@ -33,7 +35,7 @@ public class Slider extends Node {
 
 	  public Slider(float tx, float ty, float tw, float th){
 	    super("", tx, ty, tw, th, 1, 1);
-	    
+	    super.setScaleWidthOnly(false);
 	    this.setOutputToolTip(0,"value output");
 	    
 	    Path2D tp = new Path2D.Float(trianglePath(0,y+8));
@@ -46,7 +48,6 @@ public class Slider extends Node {
 	    triangleIndicator.setDrawStroke(new BasicStroke(1.0f));
 	    triangleIndicator.setDrawPaint(Color.GREEN);
 	    triangleIndicator.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
-	    triangleIndicator.setEffect(iShadow);
 
 	    Path2D p = new Path2D.Float(sliderPath(0,y+8));
 	    slider.setShape(new Path2D.Float(p));      
@@ -80,10 +81,11 @@ public class Slider extends Node {
 
 	      public void mousePressed(MouseEvent e, SGNode n){
 	        pos = e.getPoint();
-	        if(OverFlowMain.getEditMode() != true) {
+	        if(!OverFlowMain.getEditMode()) {
 	          slider.setShape(new Path2D.Float(sliderPath(mousePressedX, Tools.constrain(mousePressedY, y + 5, y + h - 16))));
 	          triangleIndicator.setShape(new Path2D.Float(trianglePath(mousePressedX, Tools.constrain(mousePressedY, y + 8, y + h - 16))));
-	          value = Tools.map(Tools.constrain(mouseDraggedY, y, y + h), y, y + h, 100, 0);
+	          sliderVal = Tools.map(Tools.constrain(mouseDraggedY, y, y + h), y, y + h, 100, 0);
+	          value = new AtomFloat(sliderVal);
 	          outputValues[0] = value;
 	          updateConnections(); 
 	        }
@@ -96,8 +98,9 @@ public class Slider extends Node {
 	    if(!OverFlowMain.getEditMode()) {
 	      slider.setShape(new Path2D.Float(sliderPath(mouseDraggedX, Tools.constrain(mouseDraggedY, y + 8, y + h - 16))));
 	      triangleIndicator.setShape(new Path2D.Float(trianglePath(mouseDraggedX, Tools.constrain(mouseDraggedY, y + 8, y + h - 16))));
-	      value = Tools.map(Tools.constrain(mouseDraggedY, y, y + h), y, y + h, 100, 0);
-	      outputValues[0] = value;
+          sliderVal = Tools.map(Tools.constrain(mouseDraggedY, y, y + h), y, y + h, 100, 0);
+          value = new AtomFloat(sliderVal);
+          outputValues[0] = value;
 	      updateConnections(); 
 	    }
 	  }
@@ -105,8 +108,9 @@ public class Slider extends Node {
 	  public void update() {
 	    if(inputValues[0] != null) {
 	      value = inputValues[0];
+	      sliderVal = value.getFloat();
 	      outputValues[0] = value;
-	      float yVal = Tools.map(value, 0, 100, y + h - 16, y + 8);
+	      float yVal = Tools.map(sliderVal, 0, 100, y + h - 16, y + 8);
 	      slider.setShape(new Path2D.Float(sliderPath(mouseDraggedX, Tools.constrain(yVal, y + 8, y + h - 16))));
 	      triangleIndicator.setShape(new Path2D.Float(trianglePath(mouseDraggedX, Tools.constrain(yVal, y + 8, y + h - 16))));
 	      updateConnections(); 

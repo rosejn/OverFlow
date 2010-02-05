@@ -2,9 +2,9 @@ package overFlow.Objects;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.Timer;
 
+import overFlow.Atom.AtomFloat;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 
@@ -36,20 +36,20 @@ public class Line extends Node{
 				timer.start();
 			}
 			if(inputValues[1] != null){
-				duration = inputValues[1];
+				duration = inputValues[1].getInt();
 			}
 			if(inputValues[2] != null){
-				startValue = inputValues[2];
+				startValue = inputValues[2].getFloat();
 			}			
 			if(inputValues[3] != null){
-				endValue = inputValues[3];
+				endValue = inputValues[3].getFloat();
 			}			
 						
 			if(count >= countMax + startValue) {
 				timer.stop();
 				count = 0;
 			}
-			value = Tools.map(count, 0, duration, startValue, endValue);
+			value = new AtomFloat(Tools.map(count, 0, duration, startValue, endValue));
 			outputValues[0] = value;
 			updateConnections();
 	}

@@ -5,6 +5,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+
+import overFlow.Atom.AtomFloat;
 import overFlow.Tools.Tools;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
@@ -23,6 +25,7 @@ public class Toggle extends Node{
 
 	  public Toggle(float mx, float my){
 	    super("",mx,my, 20,20, 1, 1);
+	    super.setScaleWidthOnly(false);
 	    x1.setDrawPaint(Color.BLACK);
 	    x1.setShape(new Line2D.Float(0, 0, (float)w - 8, (float)h - 8));
 	    x1.setTranslateX(x + 4f);
@@ -46,7 +49,7 @@ public class Toggle extends Node{
 	    //super.addShadow();
 	    //super.setShadowRadius(4);
 
-	    outputValues[0] = outputValue;
+	    outputValues[0] = new AtomFloat(outputValue);
 	  }
 
 	  public void nodePressed(){
@@ -59,27 +62,38 @@ public class Toggle extends Node{
 	      }
 	      counter++; 
 	      outputValue = counter % 2;
-	      outputValues[0] = outputValue;
+	      outputValues[0] = new AtomFloat(outputValue);
 	      super.updateConnections();
 	    }
 
 	  }
 	  public void update() {
-	    if(inputValues[0] != null) {
+	    try {
 	      value = inputValues[0];
-	      outputValues[0] = Tools.constrain(value, 0, 1);
+	      outputValues[0] = new AtomFloat(Tools.constrain(value.getInt(), 0, 1));
 	      super.updateConnections(); 
-	      if(inputValues[0] <= 0) {
-	        baseRect.setDrawPaint(Color.GRAY);
-	        subGroup.setVisible(false);  //toggle x visibility
+	      if(inputValues[0].getInt() <= 0) {
+	        toggleOff();
 	      }
 	      else {
-	        baseRect.setDrawPaint(Color.GRAY);
-	        subGroup.setVisible(true);  //toggle x visibility
+	        toggleOn();
 	      }
 	      counter++; 
 	    }
+	    catch (NullPointerException e){
+	    	
+	    }
 	  }
+
+	public void toggleOn() {
+		baseRect.setDrawPaint(Color.GRAY);
+		subGroup.setVisible(true);  //toggle x visibility
+	}
+
+	public void toggleOff() {
+		baseRect.setDrawPaint(Color.GRAY);
+		subGroup.setVisible(false);  //toggle x visibility
+	}
 	  
 	  
 	}
