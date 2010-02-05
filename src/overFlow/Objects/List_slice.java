@@ -18,7 +18,7 @@ public class List_slice extends Node {
 	}
 
 	public void update() {
-		valueArray0.clear();
+		valueArray0.clear();	//clear list storage first!
 		valueArray1.clear();
 		if (inputValues[0].getSize() > 1) {
 			if (inputValues[0].getSize() > 1) {
@@ -31,7 +31,6 @@ public class List_slice extends Node {
 					valueArray1.insertElementAt(inputValues[0].getElementAt(i), 0);
 				}
 
-				System.out.println(valueArray1.size());
 				outputValues[1] = new AtomArray(valueArray1);
 				outputValues[0] = new AtomArray(valueArray0);
 				updateConnections();

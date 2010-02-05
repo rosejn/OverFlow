@@ -16,6 +16,7 @@ import java.util.Vector;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import overFlow.Atom.Atom;
 import overFlow.Objects.Add;
 import overFlow.Objects.Bang;
 import overFlow.Objects.Change;
@@ -26,12 +27,12 @@ import overFlow.Objects.Divide;
 import overFlow.Objects.FloatDisp;
 import overFlow.Objects.Gate;
 import overFlow.Objects.IntDisp;
+import overFlow.Objects.Key;
 import overFlow.Objects.Line;
 import overFlow.Objects.List_size;
 import overFlow.Objects.List_slice;
 import overFlow.Objects.Loop;
 import overFlow.Objects.Map;
-import overFlow.Objects.Message;
 import overFlow.Objects.Metro;
 import overFlow.Objects.MetroList;
 import overFlow.Objects.Multiply;
@@ -39,6 +40,7 @@ import overFlow.Objects.NoteSequencer;
 import overFlow.Objects.Peak;
 import overFlow.Objects.Print;
 import overFlow.Objects.Random;
+import overFlow.Objects.Route;
 import overFlow.Objects.Slider;
 import overFlow.Objects.StepSequencer;
 import overFlow.Objects.Subtract;
@@ -187,18 +189,16 @@ public class ObjectCreator2 {
 		if (t.equals("print")) {	
 			if(argumentArray != null){
 				if(arguments.size() > 0){		//set to minimum arguments needed
-
 					OverFlowMain.objects.add(new Print(arguments.get(0), ox, oy));
 					Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 					OverFlowMain.rootGroup.add(n.returnGroup());
 					arguments.clear();				//always clear the argument array for the next creation or else you have left overs
 				}
-				else if(arguments.size() < 0){
-					OverFlowMain.objects.add(new Print("print", ox, oy));
+				else {
+					OverFlowMain.objects.add(new Print("", ox, oy));
 					Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
 					OverFlowMain.rootGroup.add(n.returnGroup());
-				}
-				else {
+					arguments.clear();
 				}
 			}
 		}
@@ -268,6 +268,13 @@ public class ObjectCreator2 {
 				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
 		}
 
+		else if (t.equals("key")) {		//output keyboard key events
+			OverFlowMain.objects.add(new Key(ox, oy));
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();				//always clear the argument array for the next creation or else you have left overs
+		}
+		
 		else if (t.equals("bang") || t.equals("b")) {	
 			OverFlowMain.objects.add(new Bang(ox, oy));
 			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
@@ -327,6 +334,20 @@ public class ObjectCreator2 {
 			}
 		}
 
+		else if (t.equals("route")) {	
+			if(argumentArray != null){
+				int[] intArray = new int[arguments.size()];
+				for(int i = 0; i < arguments.size() - 1; i++){
+					intArray[i] =  Integer.valueOf( arguments.get(i) ).intValue();
+				}
+				
+				OverFlowMain.objects.add(new Route(text, ox, oy, intArray));
+				Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+				OverFlowMain.rootGroup.add(n.returnGroup());
+				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
+			}
+		}
+		
 		else if (t.equals("loop")) {	
 			if(argumentArray != null){
 				if(arguments.size() > 0){		//set to minimum arguments needed
@@ -348,6 +369,16 @@ public class ObjectCreator2 {
 				OverFlowMain.rootGroup.add(n.returnGroup());
 				arguments.clear();				//always clear the argument array for the next creation or else you have left overs
 				}
+			}
+		}
+		
+		else if (t.equals("prepend")) {	
+			if(arguments.size() > 0){		//set to minimum arguments needed
+			Atom prependAtom = arguments.get(0);
+			OverFlowMain.objects.add(new MetroList(text, ox, oy, delayTime));
+			Node n = (Node) OverFlowMain.objects.get(OverFlowMain.objects.size() - 1);
+			OverFlowMain.rootGroup.add(n.returnGroup());
+			arguments.clear();				//always clear the argument array for the next creation or else you have left overs
 			}
 		}
 		
@@ -519,13 +550,13 @@ public class ObjectCreator2 {
 			     if(argumentCount == 1){
 			    	 title = s.next();
 			     }
-			     else if(argumentCount > 1){
+			     else if(argumentCount >= 2){
 			     	arguments.addElement(s.next()); 
 			     	argumentArray = arguments.toString();
+			     	}     
 			     }
 			     createObject();
-			     textEntry.setEditable(false);	     
-			     }
+			     textEntry.setEditable(false);	
 				 s.close();
 			}
 		}
@@ -541,17 +572,14 @@ public class ObjectCreator2 {
 			// TODO Auto-generated method stub
 //			System.out.println(arg0.getKeyCode());
 				keyCount++;
-						
+			MainFrameInput.key = arg0;
 			if(keyCount % 3 == 0){
 				textEntry.setColumns(keyCount/2 + 5);
 				w = textEntry.getWidth() + r * 2;
 				baseRect.setShape(new RoundRectangle2D.Float(0,0,w,h, r, r));
 			}
-			
-
 		}
 	}
-
 }
 
 

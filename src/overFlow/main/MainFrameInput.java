@@ -2,9 +2,12 @@ package overFlow.main;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import overFlow.Objects.Key;
 
 import com.sun.scenario.scenegraph.SGGroup;
 import com.sun.scenario.scenegraph.SGShape;
@@ -54,6 +57,7 @@ public class MainFrameInput {
 
 	//public SelectionTools selectionTool = new SelectionTools();
 	public static SelectionManager selectionManager = new SelectionManager();
+	public static KeyEvent key;
 
 	public MainFrameInput() {
 
@@ -221,7 +225,7 @@ public class MainFrameInput {
 	
 	class KeyListener implements SGKeyListener {
 		public void keyPressed(java.awt.event.KeyEvent e, SGNode node){
-			System.out.println(e.getKeyChar());
+			Key.updateKey(e);
 			modifier = e.getModifiers();
 			if(e.getKeyCode() == 16){
 				shiftDown = true;

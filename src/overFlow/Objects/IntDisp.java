@@ -23,6 +23,7 @@ public class IntDisp extends Node {
 		numberText.setText("0");
 		numberText.setFillPaint(Color.GREEN);
 		group.add(numberText);
+		this.setOutputToolTip(0,"int value output");
 	}
 
 	public void update() {

@@ -8,6 +8,7 @@ public class Change extends Node {
 
 	public Change(float tx, float ty) {
 		super("change", tx, ty, 1, 2);
+		this.setOutputToolTip(0,"value output");
 	}
 
 	public void update() {

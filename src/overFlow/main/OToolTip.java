@@ -3,6 +3,7 @@ package overFlow.main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.RenderingHints;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import com.sun.scenario.scenegraph.SGGroup;
@@ -32,17 +33,16 @@ public class OToolTip {
 	OToolTip(OutputPort port){
 		parent = port;
 		parent.portGroup.add(tGroup);
-		Rectangle2D r = text.getBounds();
-		
-		tipBox.setShape(r);
+
 		tipBox.setFillPaint(fillPaint);
 		tipBox.setDrawPaint(drawPaint);
 		tipBox.setMode(SGShape.Mode.STROKE_FILL);
 		tipBox.setDrawStroke(new BasicStroke(1.0f));
 		tipBox.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
-		tGroup.add(tipBox);
+
 		tGroup.add(text);
-		
+		tGroup.add(tipBox);
+		tGroup.setVisible(false);
 	}
 
 	void setVisible(boolean b){
@@ -56,15 +56,20 @@ public class OToolTip {
 	void setDraw(Color c){
 		tipBox.setDrawPaint(c);
 	}
+	
 	void setText(String s){
 		text.setText(s);
+		Rectangle2D r = text.getBounds();
+		tipBox.setShape(r);
 	}
 	
 	void setLocation(float tx, float ty){
 		x = tx;
 		y = ty;
-		tipBox.setTranslateX(tx);
-		tipBox.setTranslateY(ty);
+		Point2D p = new Point2D.Float(tx + 25, ty + 20);
+		text.setLocation(p);
+		tipBox.setTranslateX(tx + 25);
+		tipBox.setTranslateY(ty + 20);
 	}
 
 	SGGroup getGroup() {

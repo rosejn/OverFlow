@@ -24,7 +24,7 @@ public class AtomFloatArray extends Atom{
 		public float[] getFloatArray() {
 			return floatArray;
 		}
-		public Vector<AtomFloat> getAtomArray() {
+		public Vector<AtomFloat> getAtomFloatArray() {
 			return atomFloatArray;
 		}
 		

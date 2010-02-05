@@ -8,6 +8,7 @@ public class Gate extends Node {
 
 	public Gate(float tx, float ty) {
 		super("gate", tx, ty, 2, 1);
+		this.setOutputToolTip(0,"value output");
 
 	}
 

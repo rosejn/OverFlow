@@ -24,7 +24,7 @@ package overFlow.Atom;
 			public int[] getIntArray() {
 				return intArray;
 			}
-			public Vector<AtomInt> getAtomArray() {
+			public Vector<AtomInt> getAtomIntArray() {
 				return atomIntArray;
 			}
 			

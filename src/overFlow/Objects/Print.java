@@ -15,6 +15,7 @@ public class Print extends Node {
 	public Print(float tx, float ty) {
 		super("print", tx, ty, 1, 0);
 		prepend = false;
+		this.setOutputToolTip(0,"print output");
 	}
 
 	public void update() {

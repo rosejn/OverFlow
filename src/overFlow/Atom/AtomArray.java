@@ -34,4 +34,14 @@ public class AtomArray extends Atom {
 		// TODO Auto-generated method stub
 		return atomArray;
 	}
+	
+	public void insertElementAt(Atom atom, int i){
+		atomArray.insertElementAt(atom, i);
+	}
+	
+	public Atom getElementAt(int i){
+		return atomArray.get(i);
+	}
+	
+ 
 }

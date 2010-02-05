@@ -35,6 +35,7 @@ public class Dial extends Node {
 		setScaleWidthOnly(false);
 		createDial();
 		fillColor = new Color(200,200,200);
+		this.setOutputToolTip(0,"value output");
 	}
 
 	void createDial() {

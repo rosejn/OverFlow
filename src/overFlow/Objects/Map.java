@@ -18,6 +18,7 @@ public class Map extends Node {
 		srcMax = sMax;
 		tgtMin = tMin;
 		tgtMax = tMax;
+		this.setOutputToolTip(0,"mapped value output");
 
 	}
 
