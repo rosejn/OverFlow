@@ -11,7 +11,7 @@
     <property name="source" value="1.6"/>
     <path id="OverFlow.classpath">
         <pathelement location="bin"/>
-        <pathelement location="../../Documents/Processing/ScenarioBase2/code/Scenario.jar"/>
+        <pathelement location="lib/scenario.jar"/>
         <pathelement location="lib"/>
         <pathelement location="Data/icons/Dial.png"/>
     </path>
@@ -30,6 +30,19 @@
             </fileset>
         </copy>
     </target>
+    <target name="jar">
+      <jar jarfile="overflow.jar">
+        <fileset dir="bin">
+          <include name="**/*.class"/>
+        </fileset>
+        <manifest>
+          <attribute name="Main-Class"
+            value="overFlow.main.OverFlowMain"/>
+        </manifest>
+        <zipfileset src="lib/scenario.jar" includes="**/*.class"/>
+      </jar>
+    </target>
+
     <target name="clean">
         <delete dir="bin"/>
     </target>

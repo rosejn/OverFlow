@@ -19,7 +19,7 @@ public class Message extends Node {
 		super(mString, tx, ty, 2, 1);
 		messageString = mString;
 		baseRect.setFillPaint(new Color(190, 190, 190));
-		buldArray(mString);
+		buildArray(mString);
 		this.setOutputToolTip(0, "message output");
 
 	}
