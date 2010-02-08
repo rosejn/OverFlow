@@ -2,6 +2,8 @@ package overFlow.main;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -68,14 +70,13 @@ public class MainFrameInput {
 		OverFlowMain.rootGroup.add(OverFlowMain.grid.returnLineGroup());
 		OverFlowMain.rootGroup.add(group);
 
-		objCreator = new ObjectCreator2(OverFlowMain.frameMouseX,
-				OverFlowMain.frameMouseY);
+		objCreator = new ObjectCreator2(OverFlowMain.frameMouseX,OverFlowMain.frameMouseY);
 
 		window.setShape(new Rectangle2D.Float(0, 0, 1000, 1000));
 		window.setMode(SGShape.Mode.STROKE);
 		window.setDrawStroke(new BasicStroke(0.0f));
 		window.setDrawPaint(new Color(150, 150, 150, 0));
-		window.addKeyListener(new KeyListener());
+		window.addKeyListener(new KeyListener(this));
 		window.addMouseListener(new SGMouseAdapter() { // Contains all of the
 					// main window mouse
 					// interaction, object
@@ -224,6 +225,10 @@ public class MainFrameInput {
 	}
 	
 	class KeyListener implements SGKeyListener {
+		MainFrameInput mainWindow;
+		KeyListener(MainFrameInput m){
+			mainWindow = m;
+		}
 		public void keyPressed(java.awt.event.KeyEvent e, SGNode node){
 			Key.updateKey(e);
 			modifier = e.getModifiers();
@@ -235,7 +240,17 @@ public class MainFrameInput {
 				if (!OverFlowMain.objectOver
 						&& !OverFlowMain.overMenu) {
 						creatingObject = true;
+						objCreator.setLocation(mainWindow.windowX, mainWindow.windowY);
+						objCreator.setVisible(true);
+				}
+			}
+			
+			if(e.getKeyChar() == 'm'){		//create new message if you hit hot key 'm' for message
+				if (!OverFlowMain.objectOver
+						&& !OverFlowMain.overMenu) {
+						creatingObject = true;
 						objCreator.setLocation(MainFrameInput.windowX, MainFrameInput.windowY);
+						objCreator.setMessageBuilder(true);
 						objCreator.setVisible(true);
 				}
 			}
@@ -273,4 +288,14 @@ public class MainFrameInput {
 		}
 	};
 
+}
+
+class EditModeListener implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

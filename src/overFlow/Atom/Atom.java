@@ -13,7 +13,7 @@ public class Atom {
 	/**
 	 * @param empty constructor.
 	 */
-	Atom() {
+	public Atom() {
 		type = 6;
 	}
 	
@@ -133,8 +133,21 @@ public class Atom {
 	/**
 	 * @return the Vector representation of this Atom.
 	 */
-	public Vector<Atom> getAtomArray() {
+	public AtomArray getAtomArray() {
 		return null;
 	}
+	
 
+	public static Atom parseAtom( String arg ) {
+		Atom atom = new Atom();
+	  if (arg.matches("[a-zA-Z][a-zA-Z0-9]*")) {
+	    atom = new AtomString(arg);
+	  } else if (arg.matches("[0-9]+\\.[0-9]+")) {
+		    atom = new AtomFloat(Float.parseFloat(arg));
+	  }  else if (arg.matches("[0-9]+")) {
+	    atom = new AtomInt( Integer.parseInt(arg));
+	  }
+	  return atom;
+	}
+	
 }

@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import com.sun.scenario.scenegraph.SGGroup;
+import com.sun.scenario.scenegraph.SGNode;
 import com.sun.scenario.scenegraph.SGShape;
 import com.sun.scenario.scenegraph.SGText;
 import com.sun.scenario.scenegraph.SGTransform;
@@ -25,24 +27,50 @@ public class OToolTip {
 	float strokeWidth = 1;
 	
 	OutputPort parent;
+	InputPort inParent;
 	SGGroup tGroup = new SGGroup();
 	FXShape tipBox = new FXShape();
+    SGTransform.Translate translateGroup = SGTransform.createTranslation(0,0, tGroup);
 	SGText text = new SGText();
-    SGTransform.Translate tTGroup = SGTransform.createTranslation(0,0, tGroup);
-
 	OToolTip(OutputPort port){
 		parent = port;
-		parent.portGroup.add(tGroup);
+		tGroup.add(createBox());
+		tGroup.add(createText());
+		tGroup.setVisible(false);
+		parent.portGroup.add(translateGroup);
 
-		tipBox.setFillPaint(fillPaint);
-		tipBox.setDrawPaint(drawPaint);
+	}
+	
+
+	public OToolTip(InputPort inputPort) {
+		// TODO Auto-generated constructor stub
+		inParent = inputPort;
+		tGroup.add(createBox());
+		tGroup.add(createText());
+		tGroup.setVisible(false);
+		inParent.portGroup.add(translateGroup);
+	}
+
+
+	SGNode createBox() {
+		SGGroup group = new SGGroup();
+		tipBox.setShape(new RoundRectangle2D.Float(0, 0, w + 20, h, 3, 3));
+		tipBox.setTranslateX(x);
+		tipBox.setTranslateY(y);
+		tipBox.setFillPaint(new Color(230,230,170));
 		tipBox.setMode(SGShape.Mode.STROKE_FILL);
 		tipBox.setDrawStroke(new BasicStroke(1.0f));
+		tipBox.setDrawPaint(new Color(50, 50, 50, 100));
 		tipBox.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
-
-		tGroup.add(text);
-		tGroup.add(tipBox);
-		tGroup.setVisible(false);
+		group.add(tipBox);
+		return group;
+	}
+	
+	SGNode createText() {
+		SGGroup tg = new SGGroup();
+		text.setText("");
+		tg.add(text);
+		return tg;
 	}
 
 	void setVisible(boolean b){
@@ -66,13 +94,12 @@ public class OToolTip {
 	void setLocation(float tx, float ty){
 		x = tx;
 		y = ty;
-		Point2D p = new Point2D.Float(tx + 25, ty + 20);
+		Point2D p = new Point2D.Float(tx + 12, ty + 32);
 		text.setLocation(p);
-		tipBox.setTranslateX(tx + 25);
-		tipBox.setTranslateY(ty + 20);
+
 	}
 
-	SGGroup getGroup() {
-		return tGroup;
+	SGNode getGroup() {
+		return translateGroup;
 	}
 }

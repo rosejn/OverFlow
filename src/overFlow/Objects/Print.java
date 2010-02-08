@@ -1,5 +1,9 @@
 package overFlow.Objects;
 
+import java.util.Vector;
+
+import overFlow.Atom.Atom;
+import overFlow.Atom.AtomArray;
 import overFlow.main.Node;
 
 public class Print extends Node {
@@ -32,6 +36,10 @@ public class Print extends Node {
 				messageToPrint(inputValues[0].getString());
 			} else if (inputValues[0].getType() == 5) {
 				messageToPrint(inputValues[0].getStringArray());
+//			} else if (inputValues[0].getType() == 6) {
+//				messageToPrint(inputValues[0].getStringArray());
+			} else if (inputValues[0].getType() == 7) {
+				messageToPrint(inputValues[0].getAtomArray());
 			}
 		} catch (NullPointerException e) {
 		}
@@ -110,6 +118,22 @@ public class Print extends Node {
 		} else {
 			System.out.println(s);
 		}
+	}
+
+	void messageToPrint(AtomArray atomArray){
+		for(int i = 0; i < atomArray.getSize(); i++){
+			System.out.print(atomArray.get(i).getString());
+			System.out.print(" ");
+		}
+		System.out.println();
+	}
+	
+	void messageToPrint(Vector<Atom> atomArray){
+		for(int i = 0; i < atomArray.size(); i++){
+			System.out.print(atomArray.get(i).getString());
+			System.out.print(" ");
+		}
+		System.out.println();
 	}
 
 }

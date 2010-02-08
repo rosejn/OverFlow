@@ -11,6 +11,7 @@ import javax.swing.JToolTip;
 import com.sun.scenario.scenegraph.SGNode;
 import com.sun.scenario.scenegraph.SGGroup;
 import com.sun.scenario.scenegraph.SGShape;
+import com.sun.scenario.scenegraph.SGTransform;
 import com.sun.scenario.scenegraph.event.SGMouseAdapter;
 import com.sun.scenario.scenegraph.fx.FXShape;
 
@@ -21,8 +22,10 @@ public class InputPort {
 	float x, y, w;
 	int ID;
 	Node parent;
-	JToolTip toolTip;
-
+	boolean toolTipActive = false;
+	OToolTip toolTip = new OToolTip(this);
+	protected SGTransform.Translate portTranslate = SGTransform.createTranslation(0,0, portGroup);
+	
 	public InputPort(float tx, float ty, float tw, Node tParent,
 			int connectionId) {
 		x = tx;
@@ -34,8 +37,7 @@ public class InputPort {
 		createPortHighlight();
 		portGroup.add(port);
 		portGroup.add(portHighlight);
-		parent.group.add(portGroup);
-		toolTip = new JToolTip();
+		parent.group.add(portTranslate);
 	}
 
 	void createPortHighlight() {
@@ -94,6 +96,14 @@ public class InputPort {
 		port.setAntialiasingHint(RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 
+	void setTranslateX(float x){
+		portTranslate.setTranslateX(x);
+	}
+
+	void setTranslateY(float y){
+		portTranslate.setTranslateY(y);
+	}
+	
 	int returnID() {
 		return ID;
 	}
@@ -105,4 +115,30 @@ public class InputPort {
 	InputPort returnThis() {
 		return this;
 	}
+
+	public void setTranslation(float tx, float ty) {
+		// TODO Auto-generated method stub
+		portTranslate.setTranslateX(tx);
+		portTranslate.setTranslateY(ty);
+	}
+
+	public void translateXBy(float tx) {
+		// TODO Auto-generated method stub
+		portTranslate.setTranslateX(x += tx);
+	}
+	
+	void setToolTip(boolean b){
+		toolTipActive = b;
+	}
+	
+	void setToolTipText(String s){
+		toolTipActive = true;
+		toolTip.setText(s);
+	}
+	void setToolTipFill(Color c){
+		toolTip.setFill(c);
+	}
+	void setToolTipDraw(Color c){
+		toolTip.setDraw(c);
+	}	
 }

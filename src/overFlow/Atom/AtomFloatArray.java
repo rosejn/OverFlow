@@ -39,4 +39,13 @@ public class AtomFloatArray extends Atom{
 		public int getSize() {
 			return floatArray.length;
 		}
+		
+		public AtomArray getAtomArray() {
+			// TODO Auto-generated method stub
+			AtomArray array = new AtomArray();
+			for(int i = 0; i < atomFloatArray.size(); i++){
+				array.add(atomFloatArray.get(i));
+			}
+			return array;
+		}
 }

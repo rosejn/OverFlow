@@ -14,7 +14,8 @@ public class List_slice extends Node {
 	public List_slice(String text, float tx, float ty, int num) {
 		super(text, tx, ty, 1, 2);
 		sliceAmount = num;
-
+	    this.setOutputToolTip(0,"left slice of list output");
+	    this.setOutputToolTip(1,"right slice of list output");
 	}
 
 	public void update() {

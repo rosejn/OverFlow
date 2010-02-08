@@ -10,7 +10,8 @@ public class List_size extends Node {
 	
 	public List_size(String text, float tx, float ty){
 		super(text, tx, ty, 1, 2);
-		
+	    this.setOutputToolTip(0,"list output");
+	    this.setOutputToolTip(0,"list size (int)");
 	}
 	
 	

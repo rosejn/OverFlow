@@ -48,7 +48,8 @@ public class StepSequencer extends Node {
 		r = 6;
 		setBaseColor(new Color(50, 50, 50));
 		preffs = new PrefBtn(tx + tw - 30, ty - 7, 5);
-
+	    this.setOutputToolTip(0,"output array of velocities");
+	    
 		base.setShape(new RoundRectangle2D.Float(0, 0, tw, th, r, r));
 		stepGroup = new Step[(int) stepCount][(int) tracks];
 		steps = new SGGroup();

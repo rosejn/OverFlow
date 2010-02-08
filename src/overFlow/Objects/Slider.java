@@ -12,9 +12,6 @@ import overFlow.Tools.Tools;
 import overFlow.main.Node;
 import overFlow.main.OverFlowMain;
 
-
-
-import com.sun.scenario.effect.InnerShadow;
 import com.sun.scenario.scenegraph.SGNode;
 import com.sun.scenario.scenegraph.SGShape;
 import com.sun.scenario.scenegraph.SGTransform;

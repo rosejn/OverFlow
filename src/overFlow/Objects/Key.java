@@ -1,6 +1,12 @@
 package overFlow.Objects;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import overFlow.Atom.AtomInt;
 import overFlow.main.Node;
@@ -23,8 +29,18 @@ public class Key extends Node{
 		updateConnections();
 	}
 	
+	
+	
 }
 
 
+	class KeyNodeListener implements PropertyChangeListener {
 
-
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	

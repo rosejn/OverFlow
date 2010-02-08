@@ -4,6 +4,7 @@ import org.ho.yaml.Yaml;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -344,9 +345,7 @@ public class Node {
 					if (pos != null) {
 						if(scaling){
 							if(isScaleWidthOnly()){
-								w = mouseDraggedX - x;
-								baseRect.setShape(new RoundRectangle2D.Float(0, 0, w, h, r, r));
-								System.out.println(xVelocity);
+								setSize(mouseDraggedX, mouseDraggedY);
 							}
 							else {
 								h = mouseDraggedY - y;
@@ -633,17 +632,68 @@ public class Node {
 		return numObjects;
 	}
 	
+	public void setSize(float tx, float ty){
+		w = Tools.constrain(mouseDraggedX - x, nodeWidth + r + 5, 1000);
+		baseRect.setShape(new RoundRectangle2D.Float(0, 0, w, h, r, r));
+		
+		if(tx > x + nodeWidth){
+			if (inputs == 2) {
+				inputPorts[1].translateXBy(xVelocity);
+			}
+		
+			else {
+				for (int i = 0; i < inputs; i++) {
+					inputPorts[i].translateXBy(i * (inConnectionWidth + inConnectionGap) + r + x);
+				}
+			}
+		}
+	}
 	
+	/**
+	 * set output tool tip with output id and tool tip string
+	 */
 	protected void setOutputToolTip(int id, String s){
 		outputPorts[id].setToolTipText(s);
 	}
+	
+	/**
+	 * set output tool tip fill paint with output id and color
+	 */
 	void setOutputToolTipFillPaint(int id, Color c){
 		outputPorts[id].setToolTipFill(c);
 	}
+	
+	/**
+	 * set output tool tip draw paint with output id and color
+	 */
 	void setOutputToolTipDrawPaint(int id, Color c){
 		outputPorts[id].setToolTipDraw(c);
 	}
 
+	/**
+	 * set input tool tip with input id and tool tip string
+	 */
+	protected void setInputToolTip(int id, String s){
+		inputPorts[id].setToolTipText(s);
+	}
+	
+	/**
+	 * set input tool tip fill paint with input id and color
+	 */
+	void setInputToolTipFillPaint(int id, Color c){
+		inputPorts[id].setToolTipFill(c);
+	}
+	
+	/**
+	 * set input tool tip draw paint with input id and color
+	 */
+	void setInputToolTipDrawPaint(int id, Color c){
+		inputPorts[id].setToolTipDraw(c);
+	}
+	
+
+	
+	
 	public void setScaleWidthOnly(boolean scaleWidthOnly) {
 		this.scaleWidthOnly = scaleWidthOnly;
 	}

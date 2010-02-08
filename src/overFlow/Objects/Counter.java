@@ -13,6 +13,7 @@ public class Counter extends Node {
 		super(title, tx, ty, 4, 1);
 		maxCount = mCount;
 		this.setOutputToolTip(0,"count (int)");
+	    this.setInputToolTip(0,"increase count");
 	}
 
 	public void update() {

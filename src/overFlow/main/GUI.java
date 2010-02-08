@@ -1,6 +1,7 @@
 package overFlow.main;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -22,7 +23,6 @@ public class GUI extends javax.swing.JFrame {
 
 int fHeight;
 int fWidth;
-
 
 public GUI() {
  initComponents();

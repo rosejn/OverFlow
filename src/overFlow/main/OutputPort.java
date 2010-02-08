@@ -11,6 +11,7 @@ import java.util.Iterator;
 import com.sun.scenario.scenegraph.SGNode;
 import com.sun.scenario.scenegraph.SGGroup;
 import com.sun.scenario.scenegraph.SGShape;
+import com.sun.scenario.scenegraph.SGTransform;
 import com.sun.scenario.scenegraph.event.SGMouseAdapter;
 import com.sun.scenario.scenegraph.fx.FXShape;
 
@@ -24,7 +25,8 @@ public class OutputPort {
 	int ID;
 	Node parent;
 	OToolTip toolTip = new OToolTip(this);
-
+	protected SGTransform.Translate portTranslate = SGTransform.createTranslation(0,0, portGroup);
+	
 	public OutputPort(float tx, float ty, float tw, Node tParent,int connectionID) {
 		x = tx;
 		y = ty;
@@ -37,7 +39,7 @@ public class OutputPort {
 		portGroup.add(portCap);
 		portGroup.add(portHighlight);
 		portGroup.add(toolTip.getGroup());
-		parent.group.add(portGroup);
+		parent.group.add(portTranslate);
 		toolTip.setLocation(tx , ty);
 		portGroup.addMouseListener(new SGMouseAdapter() {
 			public void mouseEntered(MouseEvent e, SGNode n) {
@@ -144,6 +146,23 @@ public class OutputPort {
 
 	}
 
+	void setTranslateX(float x){
+		portTranslate.setTranslateX(x);
+	}
+
+	void setTranslateY(float y){
+		portTranslate.setTranslateY(y);
+	}
+	public void translateXBy(float tx, float ty) {
+		// TODO Auto-generated method stub
+		portTranslate.setTranslateX(x += tx);
+	}
+	
+	public void translateBy(float tx, float ty) {
+		// TODO Auto-generated method stub
+		portTranslate.setTranslateX(x += tx);
+		portTranslate.setTranslateY(y += ty);
+	}
 	OutputPort returnThis() {
 		return this;
 	}

@@ -1,12 +1,15 @@
 package overFlow.Objects;
 
+import java.util.Vector;
+
+import overFlow.Atom.Atom;
 import overFlow.main.Node;
 
 public class Route extends Node{
-	int[] intArray;
-	public Route(String title, float tx, float ty, int[] iArray){
-		super(title, tx, ty, 1, iArray.length);	//use input array length to set how many outputs
-		intArray = iArray;
+	Vector<Atom> atomArray;
+	public Route(String title, float tx, float ty, Vector<Atom> arguments){
+		super(title, tx, ty, 1, arguments.size() - 1);	//use input array length to set how many outputs
+		atomArray = arguments;
 		
 	}
 	
@@ -16,11 +19,6 @@ public class Route extends Node{
 	
 	
 	public void update() {
-		for(int i = 0; i < intArray.length - 1; i++)	{
-			if(inputValues[i].getInt() == intArray[i]){
-				outputValues[i] = inputValues[i];
-			}
-		}
-		updateConnections();
+		
 	}
 }

@@ -41,8 +41,8 @@ public class IntDisp extends Node {
 				intVal = value.getInt();
 				String s = new String(intVal.toString());
 				numberText.setText(s);
-				updateConnections();
 				outputValues[0] = value;
+				updateConnections();
 			}
 		} catch (NullPointerException e) {
 

@@ -25,6 +25,7 @@ public class FloatDisp extends Node {
 		numberText.setText("0.0");
 		numberText.setFillPaint(Color.GREEN);
 		group.add(numberText);
+	    this.setOutputToolTip(0,"value output");
 	}
 
 	public void update() {
@@ -45,8 +46,8 @@ public class FloatDisp extends Node {
 				len = Tools.constrain(len, 3f, 5f);
 				String subS = s.substring(0, (int) len);
 				numberText.setText(subS);
-				updateConnections();
 				outputValues[0] = value;
+				updateConnections();
 			}
 		} catch (NullPointerException e) {
 
